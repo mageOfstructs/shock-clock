@@ -42,8 +42,17 @@ extern "C" {
 
     // They need to have different names!
 }
-async fn update_block_data(blocks: &Vec<Block>) {
-    invoke("update_blocklist", to_value(blocks).expect("real bad")).await;
+
+#[derive(Serialize, Deserialize)]
+struct BlockArgs {
+    blocks: Vec<Block>,
+}
+async fn update_block_data(blocks: Vec<Block>) {
+    invoke(
+        "update_blocklist",
+        to_value(&BlockArgs { blocks }).expect("real bad"),
+    )
+    .await;
 }
 
 #[derive(Clone, Copy, PartialEq)]
@@ -126,13 +135,13 @@ pub fn Watcher() -> impl IntoView {
         }),
     });
 
-    // Effect::new(move |_| {
-    //     logging::log!("yeah async");
-    //     let cloned_blocks = blocks();
-    //     spawn_local(async move {
-    //         update_block_data(&cloned_blocks).await;
-    //     });
-    // });
+    Effect::new(move |_| {
+        logging::log!("yeah async");
+        let cloned_blocks = blocks();
+        spawn_local(async move {
+            update_block_data(cloned_blocks).await;
+        });
+    });
 
     let log = move || {
         format!(

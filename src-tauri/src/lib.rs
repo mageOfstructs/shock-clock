@@ -1,6 +1,5 @@
 mod watcher_state;
 use tauri::async_runtime::Mutex;
-use tauri::Manager;
 
 mod ble;
 
