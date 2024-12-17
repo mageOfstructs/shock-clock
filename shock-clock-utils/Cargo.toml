@@ -1,0 +1,8 @@
+[package]
+name = "shock-clock-utils"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+serde = "1.0.216"
+uuid = "1.11.0"

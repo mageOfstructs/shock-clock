@@ -1,0 +1,11 @@
+{
+  "name": "shock-clock",
+  "version": "1.0.0",
+  "devDependencies": {
+    "daisyui": "^4.12.20",
+    "tailwindcss": "^3.4.14"
+  },
+  "dependencies": {
+    "windows": "^0.1.2"
+  }
+}
