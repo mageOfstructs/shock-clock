@@ -100,7 +100,7 @@ pub fn Home() -> impl IntoView {
                 }
                 div class="flex-1 form-control" {
                     Toggle label="Block Social Media" callback={move |_| {}};
-                    Toggle label="Block Shorts" callback={move |_| {}};
+                    Toggle label="Block Gambling" callback={move |_| {}};
                     Toggle label="Block Adult Content" callback={move |_| {}};
                 }
             }
