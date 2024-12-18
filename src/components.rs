@@ -107,7 +107,7 @@ pub fn Home() -> impl IntoView {
 
                 div class="flex flex-auto h-6/16 pt-48" {
                     div class="flex-1";
-                    button on:click={shock_test} class="btn center text-6xl rounded-full flex-auto h-4/6 w-1/12 border-yellow-500 border-4" {"⚡"}
+                    button on:click={shock_test} class="btn center text-6xl rounded-full flex-auto h-4/6 w-1/12 border-yellow-500 border-4 hover:border-white clicked:border-yellow-500" {"⚡"}
                     div class="flex-1";
                 }
                 div class="flex-1 form-control" {
