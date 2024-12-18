@@ -1,0 +1,201 @@
+2024-12-18T12:29:57.802786Z  INFO 🚀 Starting trunk 0.21.4
+2024-12-18T12:29:57.972759Z  INFO 📦 starting build
+
+🌼   daisyUI 4.12.22
+├─ ✔︎ 1 theme added		https://daisyui.com/docs/themes
+╰─ ★ Star daisyUI on GitHub	https://github.com/saadeghi/daisyui
+
+2024-12-18T12:30:00.110925Z  INFO applying new distribution
+2024-12-18T12:30:00.113164Z  INFO ✅ success
+2024-12-18T12:30:00.113224Z  INFO 📡 serving static assets at -> /
+2024-12-18T12:30:00.113415Z  INFO 📡 server listening at:
+2024-12-18T12:30:00.113425Z  INFO     🏠 http://127.0.0.1:1420/
+2024-12-18T12:30:00.113430Z  INFO     🏠 http://[::1]:1420/
+2024-12-18T12:30:00.113547Z  INFO     🏠 http://localhost.:1420/
+2024-12-18T12:30:00.113687Z  INFO 📦 starting build
+
+🌼   daisyUI 4.12.22
+├─ ✔︎ 1 theme added		https://daisyui.com/docs/themes
+╰─ ❤︎ Support daisyUI project:	https://opencollective.com/daisyui
+
+2024-12-18T12:30:02.484482Z  INFO applying new distribution
+2024-12-18T12:30:02.486444Z  INFO ✅ success
+2024-12-18T12:30:02.486466Z  INFO 📦 starting build
+
+🌼   daisyUI 4.12.22
+├─ ✔︎ 1 theme added		https://daisyui.com/docs/themes
+╰─ ★ Star daisyUI on GitHub	https://github.com/saadeghi/daisyui
+
+2024-12-18T12:30:06.070282Z  INFO applying new distribution
+2024-12-18T12:30:06.072796Z  INFO ✅ success
+2024-12-18T12:30:06.072834Z  INFO 📦 starting build
+
+🌼   daisyUI 4.12.22
+├─ ✔︎ 1 theme added		https://daisyui.com/docs/themes
+╰─ ❤︎ Support daisyUI project:	https://opencollective.com/daisyui
+
+2024-12-18T12:30:08.961770Z  INFO applying new distribution
+2024-12-18T12:30:08.964165Z  INFO ✅ success
+2024-12-18T12:30:10.173872Z  INFO 📦 starting build
+
+🌼   daisyUI 4.12.22
+├─ ✔︎ 1 theme added		https://daisyui.com/docs/themes
+╰─ ❤︎ Support daisyUI project:	https://opencollective.com/daisyui
+
+2024-12-18T12:30:13.751923Z  INFO applying new distribution
+2024-12-18T12:30:13.754941Z  INFO ✅ success
+2024-12-18T12:30:13.754999Z  INFO 📦 starting build
+
+🌼   daisyUI 4.12.22
+├─ ✔︎ 1 theme added		https://daisyui.com/docs/themes
+╰─ ★ Star daisyUI on GitHub	https://github.com/saadeghi/daisyui
+
+2024-12-18T12:30:17.435235Z  INFO applying new distribution
+2024-12-18T12:30:17.436969Z  INFO ✅ success
+2024-12-18T12:30:19.051825Z  INFO 📦 starting build
+Performing Streamed Install
+Success
+Starting: Intent { cmp=com.shock_clock.app/.MainActivity }
+
+🌼   daisyUI 4.12.22
+├─ ✔︎ 1 theme added		https://daisyui.com/docs/themes
+╰─ ★ Star daisyUI on GitHub	https://github.com/saadeghi/daisyui
+
+2024-12-18T12:30:22.445727Z  INFO applying new distribution
+2024-12-18T12:30:22.448653Z  INFO ✅ success
+2024-12-18T12:30:22.448688Z  INFO 📦 starting build
+--------- beginning of main
+[32m12-18 13:30:20.621 11156 11156 I shock_clock.app: Late-enabling -Xcheck:jni[0m
+[32m12-18 13:30:21.066 11156 11156 I shock_clock.app: Using CollectorTypeCMC GC.[0m
+[33m12-18 13:30:21.089 11156 11156 W shock_clock.app: Unexpected CPU variant for x86: x86_64.[0m
+[33m12-18 13:30:21.089 11156 11156 W shock_clock.app: Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, goldmont-without-sha-xsaves, tremont, kabylake, default[0m
+[33m12-18 13:30:21.347 11156 11156 W ziparchive: Unable to open '/data/app/~~2Y0WVJm_eUayjUHlN4paPw==/com.shock_clock.app-4RemHV3egtS9wPHkqkpN9g==/base.dm': No such file or directory[0m
+[33m12-18 13:30:21.347 11156 11156 W ziparchive: Unable to open '/data/app/~~2Y0WVJm_eUayjUHlN4paPw==/com.shock_clock.app-4RemHV3egtS9wPHkqkpN9g==/base.dm': No such file or directory[0m
+[33m12-18 13:30:22.218 11156 11156 W shock_clock.app: Accessing hidden method Landroid/view/View;->computeFitSystemWindows(Landroid/graphics/Rect;Landroid/graphics/Rect;)Z (unsupported, reflection, allowed)[0m
+[33m12-18 13:30:22.218 11156 11156 W shock_clock.app: Accessing hidden method Landroid/view/ViewGroup;->makeOptionalFitsSystemWindows()V (unsupported, reflection, allowed)[0m
+[33m12-18 13:30:22.231 11156 11156 W HWUI    : Unknown dataspace 0[0m
+[32m12-18 13:30:22.263 11156 11201 I EGL_emulation: Opening libGLESv1_CM_emulation.so[0m
+[32m12-18 13:30:22.263 11156 11201 I EGL_emulation: Opening libGLESv2_emulation.so[0m
+[33m12-18 13:30:22.282 11156 11201 W HWUI    : Failed to choose config with EGL_SWAP_BEHAVIOR_PRESERVED, retrying without...[0m
+[33m12-18 13:30:22.282 11156 11201 W HWUI    : Failed to initialize 101010-2 format, error = EGL_SUCCESS[0m
+[32m12-18 13:30:22.387 11156 11201 I Gralloc4: mapper 4.x is not supported[0m
+[32m12-18 13:30:22.541 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 0 name position[0m
+[32m12-18 13:30:22.542 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 1 name color[0m
+[32m12-18 13:30:22.741 11156 11204 I RustStdoutStderr: starting to listen lol[0m
+[33m12-18 13:30:22.759 11156 11156 W ziparchive: Unable to open '/data/app/~~kOA6cW0nOrZzzuT_wqpY_w==/com.google.android.trichromelibrary_677813538-yJV_5fu6gPSVSFMvSkfqWg==/base.dm': No such file or directory[0m
+[33m12-18 13:30:22.759 11156 11156 W ziparchive: Unable to open '/data/app/~~kOA6cW0nOrZzzuT_wqpY_w==/com.google.android.trichromelibrary_677813538-yJV_5fu6gPSVSFMvSkfqWg==/base.dm': No such file or directory[0m
+[33m12-18 13:30:22.761 11156 11156 W shock_clock.app: Entry not found[0m
+[32m12-18 13:30:22.793 11156 11156 I WebViewFactory: Loading com.google.android.webview version 131.0.6778.135 (code 677813538)[0m
+[32m12-18 13:30:22.846 11156 11182 I shock_clock.app: Compiler allocated 5174KB to compile void android.view.ViewRootImpl.performTraversals()[0m
+[32m12-18 13:30:22.970 11156 11156 I cr_WVCFactoryProvider: version=131.0.6778.135 (677813538) minSdkVersion=29 isBundle=true multiprocess=true packageId=2[0m
+[31m12-18 13:30:23.020 11156 11223 E chromium: [1218/133023.012283:ERROR:variations_seed_loader.cc(39)] Seed missing signature.[0m
+[32m12-18 13:30:23.020 11156 11204 I RustStdoutStderr: [1218/133023.012283:ERROR:variations_seed_loader.cc(39)] Seed missing signature.[0m
+[32m12-18 13:30:23.026 11156 11223 I chromium: [1218/133023.025074:INFO:variations_seed_loader.cc(68)] Failed to open file for reading.: No such file or directory (2)[0m
+[32m12-18 13:30:23.026 11156 11204 I RustStdoutStderr: [1218/133023.025074:INFO:variations_seed_loader.cc(68)] Failed to open file for reading.: No such file or directory (2)[0m
+[32m12-18 13:30:23.055 11156 11156 I cr_LibraryLoader: Successfully loaded native library[0m
+[32m12-18 13:30:23.057 11156 11156 I cr_CachingUmaRecorder: Flushed 6 samples from 6 histograms, 0 samples were dropped.[0m
+[32m12-18 13:30:23.153 11156 11156 I cr_CombinedPProvider: #registerProvider() provider:WV.y8@51a2532 isPolicyCacheEnabled:false policyProvidersSize:0[0m
+[32m12-18 13:30:23.163 11156 11156 I cr_PolicyProvider: #setManagerAndSource() 0[0m
+[32m12-18 13:30:23.371 11156 11156 I cr_CombinedPProvider: #linkNativeInternal() 1[0m
+[32m12-18 13:30:23.387 11156 11156 I cr_AppResProvider: #getApplicationRestrictionsFromUserManager() Bundle[EMPTY_PARCEL][0m
+[32m12-18 13:30:23.388 11156 11156 I cr_PolicyProvider: #notifySettingsAvailable() 0[0m
+[32m12-18 13:30:23.388 11156 11156 I cr_CombinedPProvider: #onSettingsAvailable() 0[0m
+[32m12-18 13:30:23.388 11156 11156 I cr_CombinedPProvider: #flushPolicies()[0m
+[33m12-18 13:30:23.603 11156 11244 W chromium: [WARNING:dns_config_service_android.cc(81)] Failed to read DnsConfig.[0m
+[32m12-18 13:30:23.604 11156 11204 I RustStdoutStderr: [WARNING:dns_config_service_android.cc(81)] Failed to read DnsConfig.[0m
+[32m12-18 13:30:23.982 11156 11156 I System.out: loaded[0m
+
+🌼   daisyUI 4.12.22
+[33m12-18 13:30:24.351 11156 11270 W chromium: [WARNING:viz_main_impl.cc(85)] VizNullHypothesis is disabled (not a warning)[0m
+[32m12-18 13:30:24.357 11156 11204 I RustStdoutStderr: [WARNING:viz_main_impl.cc(85)] VizNullHypothesis is disabled (not a warning)[0m
+[33m12-18 13:30:24.560 11156 11156 W Tauri/Console: File: http://tauri.localhost/ - Line 21 - Msg: The `integrity` attribute is currently ignored for preload destinations that do not support subresource integrity. See https://crbug.com/981419 for more information[0m
+├─ ✔︎ 1 theme added		https://daisyui.com/docs/themes
+╰─ ★ Star daisyUI on GitHub	https://github.com/saadeghi/daisyui
+
+2024-12-18T12:30:25.849202Z  INFO applying new distribution
+2024-12-18T12:30:25.851246Z  INFO ✅ success
+2024-12-18T12:30:25.851276Z  INFO 📦 starting build
+[32m12-18 13:30:25.075 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 0 name inPosition[0m
+[32m12-18 13:30:25.075 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 1 name inColor[0m
+[32m12-18 13:30:25.075 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 2 name inCircleEdge[0m
+[32m12-18 13:30:25.080 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 0 name position[0m
+[32m12-18 13:30:25.081 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 1 name localCoord[0m
+[32m12-18 13:30:25.090 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 0 name position[0m
+[32m12-18 13:30:25.090 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 1 name localCoord[0m
+[32m12-18 13:30:25.104 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 0 name position[0m
+[32m12-18 13:30:25.104 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 1 name color[0m
+[32m12-18 13:30:25.111 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 0 name inPosition[0m
+[32m12-18 13:30:25.111 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 1 name inColor[0m
+[32m12-18 13:30:25.111 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 2 name inCircleEdge[0m
+[32m12-18 13:30:25.123 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 0 name resolveLevel_and_idx[0m
+[32m12-18 13:30:25.123 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 1 name p01[0m
+[32m12-18 13:30:25.123 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 2 name p23[0m
+[32m12-18 13:30:25.123 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 3 name fanPointAttrib[0m
+[32m12-18 13:30:25.127 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 0 name position[0m
+[32m12-18 13:30:25.127 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 1 name color[0m
+[32m12-18 13:30:25.131 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 0 name fillBounds[0m
+[32m12-18 13:30:25.131 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 1 name color[0m
+[32m12-18 13:30:25.131 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 2 name locations[0m
+[32m12-18 13:30:25.140 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 0 name inPosition[0m
+[32m12-18 13:30:25.140 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 1 name inColor[0m
+[32m12-18 13:30:25.140 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 2 name inTextureCoords[0m
+[32m12-18 13:30:25.144 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 0 name fillBounds[0m
+[32m12-18 13:30:25.144 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 1 name color[0m
+[32m12-18 13:30:25.144 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 2 name locations[0m
+[32m12-18 13:30:25.153 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 0 name radii_selector[0m
+[32m12-18 13:30:25.153 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 1 name corner_and_radius_outsets[0m
+[32m12-18 13:30:25.153 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 2 name aa_bloat_and_coverage[0m
+[32m12-18 13:30:25.153 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 3 name radii_x[0m
+[32m12-18 13:30:25.153 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 4 name radii_y[0m
+[32m12-18 13:30:25.153 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 5 name skew[0m
+[32m12-18 13:30:25.153 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 6 name translate_and_localrotate[0m
+[32m12-18 13:30:25.153 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 7 name color[0m
+[32m12-18 13:30:25.158 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 0 name position[0m
+[32m12-18 13:30:25.158 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 1 name localCoord[0m
+[32m12-18 13:30:25.163 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 0 name position[0m
+[32m12-18 13:30:25.163 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 1 name color[0m
+[32m12-18 13:30:25.163 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 2 name localCoord[0m
+[32m12-18 13:30:25.168 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 0 name radii_selector[0m
+[32m12-18 13:30:25.168 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 1 name corner_and_radius_outsets[0m
+[32m12-18 13:30:25.168 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 2 name aa_bloat_and_coverage[0m
+[32m12-18 13:30:25.168 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 3 name radii_x[0m
+[32m12-18 13:30:25.168 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 4 name radii_y[0m
+[32m12-18 13:30:25.168 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 5 name skew[0m
+[32m12-18 13:30:25.168 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 6 name translate_and_localrotate[0m
+[32m12-18 13:30:25.168 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 7 name color[0m
+[32m12-18 13:30:25.172 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 0 name inPosition[0m
+[32m12-18 13:30:25.172 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 1 name inColor[0m
+[32m12-18 13:30:25.172 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 2 name inCoverage[0m
+[32m12-18 13:30:25.181 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 0 name position[0m
+[32m12-18 13:30:25.181 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 1 name color[0m
+[32m12-18 13:30:25.185 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 0 name position[0m
+[32m12-18 13:30:25.185 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 1 name color[0m
+[32m12-18 13:30:25.187 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 0 name inPosition[0m
+[32m12-18 13:30:25.187 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 1 name inColor[0m
+[32m12-18 13:30:25.194 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 0 name position[0m
+[32m12-18 13:30:25.194 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 1 name color[0m
+[32m12-18 13:30:25.210 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 0 name position[0m
+[32m12-18 13:30:25.210 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 1 name color[0m
+[32m12-18 13:30:25.210 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 2 name localCoord[0m
+[32m12-18 13:30:25.219 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 0 name position[0m
+[32m12-18 13:30:25.219 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 1 name localCoord[0m
+[32m12-18 13:30:25.223 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 0 name position[0m
+[32m12-18 13:30:25.223 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 1 name localCoord[0m
+[32m12-18 13:30:25.223 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 2 name texSubset[0m
+[33m12-18 13:30:25.230 11156 11156 W Tauri/Console: File: http://tauri.localhost/ - Line 21 - Msg: The `integrity` attribute is currently ignored for preload destinations that do not support subresource integrity. See https://crbug.com/981419 for more information[0m
+[32m12-18 13:30:25.661 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 0 name inPosition[0m
+[32m12-18 13:30:25.661 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 1 name inColor[0m
+[32m12-18 13:30:25.661 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 2 name inCircleEdge[0m
+[32m12-18 13:30:25.662 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 0 name inputPoint[0m
+[32m12-18 13:30:25.669 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 0 name resolveLevel_and_idx[0m
+[32m12-18 13:30:25.669 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 1 name p01[0m
+[32m12-18 13:30:25.669 11156 11204 I RustStdoutStderr: s_glBindAttribLocation: bind attrib 2 name p23[0m
+
+🌼   daisyUI 4.12.22
+├─ ✔︎ 1 theme added		https://daisyui.com/docs/themes
+╰─ ❤︎ Support daisyUI project:	https://opencollective.com/daisyui
+
+2024-12-18T12:30:28.397220Z  INFO applying new distribution
+2024-12-18T12:30:28.399051Z  INFO ✅ success
+2024-12-18T12:30:28.399077Z  INFO 📦 starting build
+[33m12-18 13:30:27.592 11156 11156 W Tauri/Console: File: http://tauri.localhost/ - Line 21 - Msg: The `integrity` attribute is currently ignored for preload destinations that do not support subresource integrity. See https://crbug.com/981419 for more information[0m

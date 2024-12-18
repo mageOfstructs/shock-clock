@@ -1,0 +1,6 @@
+
+<resources>
+    <string name="app_name">Shock Clock</string>
+    <string name="service_description">This is a description of the accessibility service used by Shock Clock.</string>
+</resources>
+
