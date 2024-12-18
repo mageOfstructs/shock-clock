@@ -237,8 +237,8 @@ where
 #[component]
 fn BlockElement(block: Block) -> impl IntoView {
     mview! {
-        li class="flex items-center justify-between p-4" {
-            div class="flex items-start space-x-3" {
+        li class="flex p-4" {
+            div class="flex flex-auto w-1/2 items-start space-x-3" {
                 {match &block.block_type {
                     BlockType::App(_) => mview!{ Icon width="3em" height="3em" icon={i::AiAppstoreOutlined}() },
                     BlockType::Website(_) => mview!{ Icon width="3em" height="3em" icon={i::MdiWeb}() },
@@ -253,11 +253,13 @@ fn BlockElement(block: Block) -> impl IntoView {
                     }})
                 }
             }
-            button class="btn btn-warning" {
-                Icon width="2em" height="2em" icon={i::BsLightningCharge}()
-            }
-            button class="btn btn-error" {
-                Icon width="2em" height="2em" icon={i::BsTrash}()
+            div class="flex justify-around flex-auto w-1/2" {
+                button class="btn btn-warning" {
+                    Icon width="2em" height="2em" icon={i::BsLightningCharge}()
+                }
+                button class="btn btn-error" {
+                    Icon width="2em" height="2em" icon={i::BsTrash}()
+                }
             }
         }
     }
