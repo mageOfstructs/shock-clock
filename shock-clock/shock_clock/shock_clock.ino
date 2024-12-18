@@ -6,15 +6,16 @@
 
 BLEService shock_service("a44362c5-b709-4b41-8904-f4362031ce7e");
 BLEUnsignedShortCharacteristic activate_shock("155dc6c3-99c5-4f87-aa9d-329fcfaf893b", BLERead | BLEWrite | BLEWriteWithoutResponse);
-BLECharacteristic shock_loop_active("873346bd-a08b-4769-b006-4375190f6bc7", BLEWrite | BLERead, 0, 1);
-BLECharacteristic cooldown("1d0edd21-dfce-4906-8a47-7cf83aef1292", BLEWrite | BLERead, 0, 2);
+BLECharacteristic shock_loop_active("873346bd-a08b-4769-b006-4375190f6bc7", BLEWrite | BLERead | BLEWriteWithoutResponse, 0, 1);
+BLEUnsignedShortCharacteristic cooldown("1d0edd21-dfce-4906-8a47-7cf83aef1292", BLEWrite | BLERead | BLEWriteWithoutResponse);
 
-void shock(unsigned short duration) {
+void shock(unsigned short duration, uint16_t cooldown_ms) {
   Serial.println("Administering shock...");
   digitalWrite(SHOCK_PIN, HIGH);
   delay((unsigned long) duration);
   digitalWrite(SHOCK_PIN, LOW);
   Serial.println("Shock done");
+  delay(cooldown_ms);
 }
 
 void shock_loop(unsigned short duration) {
@@ -23,8 +24,7 @@ void shock_loop(unsigned short duration) {
   cooldown.readValue(cooldown_ms);
   shock_loop_active.readValue(loop_active);
   while (loop_active) {
-    shock(duration);
-    delay(cooldown);
+    shock(duration, cooldown_ms);
     loop_active--;
     // shock_loop_active.readValue(loop_active);
   }
@@ -51,8 +51,8 @@ void setup() {
   BLE.setAdvertisedService(shock_service);
 
   shock_service.addCharacteristic(activate_shock);
-  // shock_service.addCharacteristic(shock_loop_active);
-  // shock_service.addCharacteristic(cooldown);
+  shock_service.addCharacteristic(shock_loop_active);
+  shock_service.addCharacteristic(cooldown);
 
   BLE.addService(shock_service);
 
@@ -61,6 +61,7 @@ void setup() {
   activate_shock.setEventHandler(BLEWritten, shockActivated);
 
   activate_shock.setValue(0);
+  cooldown.setValue(1000);
 
   //BLE.setConnectionInterval(0, -1);
   if (!BLE.advertise()) {
@@ -74,13 +75,6 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   BLE.poll();
-  // BLEDevice phone = BLE.central();
-  // if (phone) {
-  //   while (phone.connected()) {
-
-  //   }
-  //   //Serial.println("Connected?");
-  // }
 }
 
 void shockActivated(BLEDevice central, BLECharacteristic characteristic) {
@@ -96,7 +90,7 @@ void shockActivated(BLEDevice central, BLECharacteristic characteristic) {
   if (loop_active) {
     shock_loop(duration);
   } else if (duration > 0 && duration < MAX_SHOCK_DURATION) {
-    shock(duration);
+    shock(duration, cooldown.value());
   }
   characteristic.writeValue((unsigned short)0);
 }
