@@ -4083,6 +4083,7 @@ dependencies = [
  "shock-clock-utils",
  "tauri",
  "tauri-build",
+ "tauri-plugin-accessibility",
  "tauri-plugin-blec",
  "tauri-plugin-shell",
  "tokio",
@@ -4527,6 +4528,16 @@ dependencies = [
  "tauri-utils",
  "toml 0.8.2",
  "walkdir",
+]
+
+[[package]]
+name = "tauri-plugin-accessibility"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "tauri",
+ "tauri-plugin",
+ "thiserror 2.0.7",
 ]
 
 [[package]]

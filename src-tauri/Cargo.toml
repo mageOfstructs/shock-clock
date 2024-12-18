@@ -23,6 +23,7 @@ tauri-plugin-shell = "2.0.0"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 tauri-plugin-blec = "0.2.0"
+tauri-plugin-accessibility = {path = "../tauri-plugin-accessibility"}
 shock-clock-utils = { path = "../shock-clock-utils" }
 tokio = { version = "1.42.0", features = ["full"] }
 uuid = {version = "1.11.0", features = ["serde"] }
