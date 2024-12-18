@@ -1,4 +1,6 @@
 use leptos::create_effect;
+use leptos::provide_context;
+use leptos::use_context;
 use leptos::SignalUpdate;
 use shock_clock_utils::AppBlockData;
 use shock_clock_utils::BlockType;
@@ -70,12 +72,16 @@ impl Display for BlockTypeRoute {
     }
 }
 
+#[derive(Clone)]
+struct BlocksWS(WriteSignal<Vec<Block>>);
+
 #[component]
 pub fn Watcher() -> impl IntoView {
     let (route, set_route) = create_signal(WatcherRoute::Blacklist);
     let (block_type, set_block_type) = create_signal(BlockTypeRoute::All);
 
     let (blocks, set_blocks) = create_signal(Vec::new());
+    provide_context(BlocksWS(set_blocks));
 
     let filtered_blocks = move || match block_type() {
         BlockTypeRoute::All => blocks(),
@@ -236,6 +242,11 @@ where
 
 #[component]
 fn BlockElement(block: Block) -> impl IntoView {
+    let set_blocks = use_context::<BlocksWS>().unwrap().0;
+    let remove_block = move |uuid: uuid::Uuid| {
+        set_blocks.update(|blocks| blocks.retain(|block| block.uuid != uuid))
+    };
+
     mview! {
         li class="flex p-4" {
             div class="flex flex-auto w-1/2 items-start space-x-3" {
@@ -254,10 +265,12 @@ fn BlockElement(block: Block) -> impl IntoView {
                 }
             }
             div class="flex justify-around flex-auto w-1/2" {
+                // komischer ShockStrength button
                 button class="btn btn-warning" {
                     Icon width="2em" height="2em" icon={i::BsLightningCharge}()
                 }
-                button class="btn btn-error" {
+                // Delete Button
+                button class="btn btn-error" on:click={move |_| remove_block(block.uuid)} {
                     Icon width="2em" height="2em" icon={i::BsTrash}()
                 }
             }
