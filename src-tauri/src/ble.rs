@@ -52,14 +52,20 @@ pub fn shock(state: State<'_, Mutex<Option<String>>>, duration: u16) {
             eprintln!("Don't have an address yet!");
             return;
         }
+        eprintln!("attempting shock...");
         let mut handler = tauri_plugin_blec::get_handler().unwrap().lock().await;
+        eprintln!("got lock...");
+
         if let Ok(_) = handler.connected_device().await {
-            // no idea if little endian works here
             let data = [(duration & 255) as u8, (duration >> 8) as u8];
-            if let Err(err) = handler.send_data(SHOCK_FLAG, &data).await {
-                eprintln!("While sending data: {err}");
+            match handler.send_data(SHOCK_FLAG, &data).await {
+                Ok(_) => println!("data sent"),
+                Err(err) => eprintln!("While sending data: {err}"),
             }
             res = Ok(());
+        } else {
+            eprintln!("Device disconnected prematurely!"); // this is a straight up lie
+            *state.lock().await = None;
         }
     });
 }
@@ -85,13 +91,19 @@ async fn check_connected(app: &AppHandle) -> bool {
 
 #[tauri::command]
 pub fn init_scanloop(app: AppHandle) {
-    thread::spawn(move || loop {
+    thread::spawn(move || {
         async_runtime::block_on((|| async {
-            println!("Checking...");
-            if check_connected(&app).await {
-                app.emit("clock_found", ());
+            loop {
+                println!("Checking...");
+                if check_connected(&app).await {
+                    println!("Emitting event...");
+                    if let Err(err) = app.emit("clock_found", ()) {
+                        eprintln!("Failed sending event: {err}");
+                    }
+                    return;
+                }
+                thread::sleep(Duration::from_secs(10));
             }
-            thread::sleep(Duration::from_secs(10));
         })())
     });
 }
