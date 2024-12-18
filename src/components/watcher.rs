@@ -30,18 +30,8 @@ use serde::{Deserialize, Serialize};
 use serde_wasm_bindgen::{from_value, to_value};
 use wasm_bindgen::prelude::*;
 
-#[wasm_bindgen]
-extern "C" {
-    // invoke without arguments
-    #[wasm_bindgen(js_namespace = ["window", "__TAURI__", "core"], js_name = invoke)]
-    async fn invoke_without_args(cmd: &str) -> JsValue;
+use super::{invoke, invoke_without_args};
 
-    // invoke with arguments (default)
-    #[wasm_bindgen(js_namespace = ["window", "__TAURI__", "core"])]
-    async fn invoke(cmd: &str, args: JsValue) -> JsValue;
-
-    // They need to have different names!
-}
 async fn update_block_data(blocks: &Vec<Block>) {
     invoke("update_blocklist", to_value(blocks).expect("real bad")).await;
 }
