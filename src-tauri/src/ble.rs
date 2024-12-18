@@ -1,6 +1,9 @@
+use std::thread;
+use std::time::Duration;
+
 use shock_clock_utils::ble::IsConnected;
 use tauri::async_runtime::Mutex;
-use tauri::{async_runtime, State};
+use tauri::{async_runtime, AppHandle, Emitter, Manager, State};
 use tokio::sync::mpsc;
 use uuid::{uuid, Uuid};
 
@@ -69,4 +72,26 @@ pub async fn is_connected(state: State<'_, Mutex<Option<String>>>) -> Result<IsC
         *state = scan().await;
     }
     Ok(IsConnected(state.is_some()))
+}
+
+async fn check_connected(app: &AppHandle) -> bool {
+    let mutex = app.state::<Mutex<Option<String>>>();
+    let mut cur_state = mutex.lock().await;
+    if let None = *cur_state {
+        *cur_state = scan().await;
+    }
+    cur_state.is_some()
+}
+
+#[tauri::command]
+pub fn init_scanloop(app: AppHandle) {
+    thread::spawn(move || loop {
+        async_runtime::block_on((|| async {
+            println!("Checking...");
+            if check_connected(&app).await {
+                app.emit("clock_found", ());
+            }
+            thread::sleep(Duration::from_secs(10));
+        })())
+    });
 }

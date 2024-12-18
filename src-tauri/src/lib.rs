@@ -20,7 +20,8 @@ pub fn run() {
             watcher_state::update_blocklist,
             greet,
             ble::shock,
-            ble::is_connected
+            ble::is_connected,
+            ble::init_scanloop
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

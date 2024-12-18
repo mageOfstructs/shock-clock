@@ -16,8 +16,11 @@ leptos-mview = "0.3.2"
 leptos_icons = "0.3.1"
 icondata = "0.4.0"
 icondata_core = "0.1.0"
-shock-clock-utils = {path = "./shock-clock-utils"}
-uuid = {version= "1.11.0", features = ["v4", "serde"]}
+shock-clock-utils = { path = "./shock-clock-utils" }
+uuid = { version = "1.11.0", features = ["v4", "serde"] }
+tauri-sys = { git = "https://github.com/JonasKruckenberg/tauri-sys", branch = "v2", features = [
+	"event",
+] }
 
 [workspace]
-members = [ "shock-clock-utils","src-tauri"]
+members = ["shock-clock-utils", "src-tauri"]

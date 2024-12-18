@@ -3,6 +3,7 @@ use leptos::logging;
 use leptos::on_cleanup;
 use leptos::set_interval_with_handle;
 use leptos::view;
+use leptos::Await;
 use leptos::Signal;
 use leptos::WriteSignal;
 use shock_clock_utils::ble::IsConnected;
@@ -18,6 +19,8 @@ use leptos_mview::mview;
 use serde::{Deserialize, Serialize};
 use serde_wasm_bindgen::{from_value, to_value};
 use wasm_bindgen::prelude::*;
+
+use tauri_sys::event;
 
 #[derive(Serialize, Deserialize)]
 struct ShockArgs {
@@ -51,8 +54,12 @@ struct GreetArgs<'a> {
 
 #[component]
 pub fn Home() -> impl IntoView {
+    spawn_local((|| async {
+        invoke_without_args("init_scanloop").await;
+    })());
     let shock_test = move |_| {
         spawn_local((async move || {
+            // FIXME: currently still blocks the thread
             logging::log!("shocking...?");
             let args = to_value(&ShockArgs { duration: 1000 }).unwrap();
             logging::log!("args seems good...");
@@ -61,16 +68,17 @@ pub fn Home() -> impl IntoView {
             println!("{res:?}");
         })());
     };
+    let wait_for_addr = || async {
+        let res: Result<event::Event<()>, tauri_sys::Error> = event::once("clock_found").await;
+        match res {
+            Ok(_) => true,
+            Err(err) => {
+                logging::error!("Error: {err}");
+                false
+            }
+        }
+    };
     let (clock_stat, set_clock_stat) = create_signal(false);
-    // let handle = set_interval_with_handle(
-    //     move || {
-    //         spawn_local(update_clock_stat(set_clock_stat));
-    //     },
-    //     Duration::from_secs(5),
-    // );
-    // on_cleanup(move || {
-    //     drop(handle);
-    // });
     let get_icon = move || {
         if clock_stat() {
             i::AiCheckOutlined
@@ -89,7 +97,11 @@ pub fn Home() -> impl IntoView {
                     }
                     div class="stat" {
                         span class="stat-title" { "Clock" }
-                        Icon icon={Signal::derive(get_icon)};
+                        Await
+                            future={wait_for_addr}
+                            |_| {
+                                Icon icon={i::AiCheckOutlined};
+                            }
                     }
                 }
 
