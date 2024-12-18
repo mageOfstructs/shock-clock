@@ -13,7 +13,7 @@ pub struct Block {
 pub enum BlockType {
     App(AppBlockData),
     Website(WebsiteBlockData),
-    Keyword(KeywordBlockData),
+    Keyword,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
@@ -31,11 +31,6 @@ pub struct AppBlockData {
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct WebsiteBlockData {
     pub url: String,
-}
-
-#[derive(Serialize, Deserialize, Clone, Debug)]
-pub struct KeywordBlockData {
-    pub name: String,
 }
 
 pub mod ble;
