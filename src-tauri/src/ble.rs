@@ -15,7 +15,10 @@ const COOLDOWN_CHARA: Uuid = uuid!("1d0edd21-dfce-4906-8a47-7cf83aef1292");
 async fn scan() -> Option<String> {
     let handler = tauri_plugin_blec::get_handler().unwrap();
     let (tx, mut rx) = mpsc::channel(1);
-    handler.lock().await.discover(Some(tx), 1000).await.unwrap();
+    if let Err(err) = handler.lock().await.discover(Some(tx), 1000).await {
+        eprintln!("While scanning: {err}");
+        return None;
+    }
     while let Some(devices) = rx.recv().await {
         for dev in devices.iter() {
             println!("Device: {dev:?}");
