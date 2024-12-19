@@ -1,10 +1,13 @@
 use leptos::create_effect;
+use leptos::html;
 use leptos::logging;
 use leptos::provide_context;
 use leptos::spawn_local;
 use leptos::use_context;
+use leptos::view;
 use leptos::Children;
 use leptos::Effect;
+use leptos::NodeRef;
 use leptos::Signal;
 use leptos::SignalUpdate;
 use leptos::SignalWith;
@@ -191,6 +194,31 @@ pub fn Watcher() -> impl IntoView {
         )
     };
 
+    let input_ref: NodeRef<html::Input> = NodeRef::new();
+    let name_input_ref: NodeRef<html::Input> = NodeRef::new();
+    let create_block = move |ba: BlockAdd| {
+        let bt = match ba {
+            BlockAdd::App => BlockType::App(AppBlockData {
+                package_name: input_ref.get().unwrap().value(),
+            }),
+            BlockAdd::Website => BlockType::Website(WebsiteBlockData {
+                url: input_ref.get().unwrap().value(),
+            }),
+            BlockAdd::Keyword => BlockType::Keyword,
+        };
+        let name = if ba == BlockAdd::Keyword {
+            input_ref.get().unwrap().value()
+        } else {
+            name_input_ref.get().unwrap().value()
+        };
+        add_block(Block {
+            uuid: uuid::Uuid::new_v4(),
+            name,
+            shock_strength: ShockStrength::Normal,
+            block_type: bt,
+        });
+    };
+
     mview! {
         div class="sticky top-0 z-50 bg-base-100 pb-3 pt-3" {
             div class="join flex mx-5" {
@@ -233,16 +261,36 @@ pub fn Watcher() -> impl IntoView {
         BlockTypeSelectModal set_block_add_type={set_add_modal_block_type} is_open={select_modal_is_open} set_is_open={set_select_modal_is_open} set_add_modal_open={set_add_modal_is_open}()
         BlockAddModal is_open={add_modal_is_open.into()} {
             button class="btn btn-md btn-circle btn-ghost absolute right-2 top-2" on:click={move |_| set_add_modal_is_open(false)}("X")
-            {move || match add_modal_block_type.get() {
-                BlockAdd::App => mview! {
-                    h2 ("Block an App")
-                },
-                BlockAdd::Website => mview! {
-                    h2 ("Block a Website")
-                },
-                BlockAdd::Keyword => mview! {
-                    h2 ("Block a Keyword")
+            {move || {
+                let heading = format!("Block {} {}", if add_modal_block_type() == BlockAdd::App {"an"} else {"a"}, add_modal_block_type());
+                view! {
+                    <h2>{heading}</h2>
+                    <form on:submit={move |ev| {
+                        ev.prevent_default();
+                        set_add_modal_is_open(false);
+                        create_block(add_modal_block_type())
+                    }}>
+                        {
+                            if add_modal_block_type() != BlockAdd::Keyword {
+                                view! {
+                                    <input type="text" placeholder="Name" node_ref={name_input_ref}/>
+                                }.into_view()
+                            } else {
+                                view!{}.into_view()
+                            }
+                        }
+                        <input type="text" placeholder="Identifier" node_ref={input_ref}/>
+                        <input type="submit" value="Create"/>
+                    </form>
                 }
+                // mview! {
+                //     h2 ({heading})
+                //     form {
+                //         input type="text" placeholder="Name" node_ref={name_input_ref};
+                //         input type="text" node_ref={input_ref};
+                //         input type="submit" value="Create";
+                //     }
+                // }
             }}
         }
         BlockAddModal is_open={modal_condition} {
@@ -266,11 +314,33 @@ pub fn Watcher() -> impl IntoView {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq)]
 enum BlockAdd {
     App,
     Website,
     Keyword,
+}
+
+// impl Into<BlockType> for BlockAdd {
+//     fn into(self) -> T {
+//         match self {
+//             Self::App => BlockType::App(_);
+//         }
+//     }
+// }
+
+impl Display for BlockAdd {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                Self::App => "App",
+                Self::Website => "Website",
+                Self::Keyword => "Keyword",
+            }
+        )
+    }
 }
 
 #[component]
