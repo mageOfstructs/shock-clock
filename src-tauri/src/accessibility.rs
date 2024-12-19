@@ -22,7 +22,7 @@ pub fn init_accessibility(
                 let app_clone = app.clone();
                 let event = app_clone.accessibility().get_event(EventPayload).unwrap();
                 if event.text != "" {
-                    check_for_block(event, &state.lock().await, &app).await;
+                    check_for_block(&app, event, &state.lock().await).await;
                 }
             }
         });
@@ -31,9 +31,9 @@ pub fn init_accessibility(
 }
 
 async fn check_for_block(
+    app: &AppHandle,
     accessibility_event: AccessibilityEvent,
     blocks: &MutexGuard<'_, Vec<Block>>,
-    app: &AppHandle,
 ) {
     if accessibility_event.package == "com.shock_clock.app" {
         return;
@@ -54,6 +54,7 @@ async fn check_for_block(
                 "Blocked!!!: {:?} {:?}",
                 block.block_type, block.shock_strength
             );
+            app.accessibility().go_to_home_screen(GoToHomeScreenArgs);
             super::ble::shock_internal(app.state::<Mutex<Option<String>>>(), 500).await;
             break;
         }

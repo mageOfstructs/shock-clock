@@ -43,6 +43,7 @@ struct Route(RwSignal<SelectedRoute>);
 pub fn App() -> impl IntoView {
     spawn_local((|| async {
         invoke_without_args("init_accessibility").await;
+        invoke_without_args("init_scanloop").await;
     })());
 
     let selected_route = RwSignal::new(SelectedRoute::Watcher);

@@ -2,14 +2,15 @@ package com.plugin.accessibility
 
 import android.app.Activity
 import android.view.accessibility.AccessibilityNodeInfo
+import android.view.accessibility.AccessibilityEvent
 import app.tauri.annotation.Command
 import app.tauri.annotation.InvokeArg
 import app.tauri.annotation.TauriPlugin
 import app.tauri.plugin.JSObject
 import app.tauri.plugin.Plugin
 import app.tauri.plugin.Invoke
-import org.json.JSONObject
-import android.view.accessibility.AccessibilityEvent
+import com.plugin.accessibility.kt.AccessibilityEventManager
+import android.accessibilityservice.AccessibilityService
 
 @InvokeArg
 class PingArgs {
@@ -18,14 +19,13 @@ class PingArgs {
 
 @TauriPlugin
 class ExamplePlugin(private val activity: Activity) : Plugin(activity) {
-    private val implementation = Example()
 
     @Command
     fun getEvent(invoke: Invoke) {
         val ret = JSObject()
-
         val event = AccessibilityEventManager.eventQueue.poll()
         val rootNode: AccessibilityNodeInfo? = event?.source
+
         if (event == null || rootNode == null) {
             ret.put("text", "")
             ret.put("package", "")
@@ -37,8 +37,8 @@ class ExamplePlugin(private val activity: Activity) : Plugin(activity) {
             ret.put("text", text)
             ret.put("package", event.packageName ?: "")
             ret.put("event_type", AccessibilityEvent.eventTypeToString(event.eventType))
-
         }
+
         invoke.resolve(ret)
     }
 
@@ -58,16 +58,27 @@ class ExamplePlugin(private val activity: Activity) : Plugin(activity) {
 
     @Command
     fun goToHomeScreen(invoke: Invoke) {
-        implementation.goToHomeScreen();
+        val service = AccessibilityEventManager.accessibilityService
+        if (service != null) {
+            service.performGlobalAction(AccessibilityService.GLOBAL_ACTION_HOME)
+            invoke.resolve()
+        } else {
+            invoke.reject("AccessibilityService is not active")
+        }
     }
 
     @Command
     fun ping(invoke: Invoke) {
         val args = invoke.parseArgs(PingArgs::class.java)
-
         val ret = JSObject()
-        ret.put("value", implementation.pong(args.value ?: "default value :("))
+        val service = AccessibilityEventManager.accessibilityService
+
+        if (service is Example) {
+            ret.put("value", service.pong(args.value ?: "default value :("))
+        } else {
+            ret.put("value", "AccessibilityService is not active")
+        }
+
         invoke.resolve(ret)
     }
 }
-

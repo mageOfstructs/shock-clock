@@ -65,9 +65,9 @@ pub fn Home() -> impl IntoView {
     let (clock_stat, set_clock_stat) = create_signal(false);
     let get_icon = move || {
         if clock_stat() {
-            i::AiCheckOutlined
+            i::AiThunderboltFilled
         } else {
-            i::AiCloseOutlined
+            i::AiWarningFilled
         }
     };
     mview! {
@@ -77,14 +77,14 @@ pub fn Home() -> impl IntoView {
                 div class="stats" {
                     div class="stat" {
                         span class="stat-title" { "Watcher" }
-                        Icon icon={i::AiCloseOutlined};
+                        Icon icon={i::AiWarningFilled};
                     }
                     div class="stat" {
                         span class="stat-title" { "Clock" }
                         Await
                             future={wait_for_addr}
                             |_| {
-                                Icon icon={i::AiCheckOutlined};
+                                Icon icon={i::AiThunderboltFilled};
                             }
                     }
                 }
