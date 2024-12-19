@@ -9,7 +9,6 @@ use tokio::sync::MutexGuard;
 pub async fn init_accessibility(
     app: AppHandle,
     state: State<'_, Mutex<Vec<shock_clock_utils::Block>>>,
-    blocks: Vec<Block>,
 ) -> Result<(), ()> {
     async_runtime::block_on(async {
         let mut lock = state.lock().await;
