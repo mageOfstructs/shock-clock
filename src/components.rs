@@ -61,7 +61,7 @@ pub fn Home() -> impl IntoView {
         spawn_local((async move || {
             // FIXME: currently still blocks the thread
             logging::log!("shocking...?");
-            let args = to_value(&ShockArgs { duration: 1000 }).unwrap();
+            let args = to_value(&ShockArgs { duration: 500 }).unwrap();
             logging::log!("args seems good...");
             logging::log!("greet works...");
             let res = invoke("shock", args).await;
