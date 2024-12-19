@@ -44,6 +44,33 @@ async fn connect(address: String) {
     }
 }
 
+pub fn shock_internal(state: Mutex<Option<String>>, duration: u16) {
+    let mut res = Err(());
+    async_runtime::block_on(async {
+        if let Some(ref addr) = *state.lock().await {
+            connect(addr.to_string()).await;
+        } else {
+            eprintln!("Don't have an address yet!");
+            return;
+        }
+        eprintln!("attempting shock...");
+        let mut handler = tauri_plugin_blec::get_handler().unwrap().lock().await;
+        eprintln!("got lock...");
+
+        if let Ok(_) = handler.connected_device().await {
+            let data = [(duration & 255) as u8, (duration >> 8) as u8];
+            match handler.send_data(SHOCK_FLAG, &data).await {
+                Ok(_) => println!("data sent"),
+                Err(err) => eprintln!("While sending data: {err}"),
+            }
+            res = Ok(());
+        } else {
+            eprintln!("Device disconnected prematurely!"); // this is a straight up lie
+            *state.lock().await = None;
+        }
+    });
+}
+
 // FIXME: this doesn't work anymore if it returns anything :c
 #[tauri::command]
 pub fn shock(state: State<'_, Mutex<Option<String>>>, duration: u16) {
