@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use tauri::async_runtime::Mutex;
 
 use shock_clock_utils::Block;
@@ -5,7 +7,7 @@ use tauri::State;
 
 #[tauri::command]
 pub async fn update_blocklist(
-    state: State<'_, Mutex<Vec<shock_clock_utils::Block>>>,
+    state: State<'_, Arc<Mutex<Vec<shock_clock_utils::Block>>>>,
     blocks: Vec<Block>,
 ) -> Result<(), ()> {
     // verrrry inefficient *purr*

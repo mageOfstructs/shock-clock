@@ -1,4 +1,5 @@
 mod watcher_state;
+use std::sync::Arc;
 use std::thread;
 use std::time::Duration;
 use tauri::async_runtime::Mutex;
@@ -22,7 +23,7 @@ pub fn run() {
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_blec::init())
         .plugin(tauri_plugin_accessibility::init())
-        .manage(Mutex::new(Vec::<shock_clock_utils::Block>::new()))
+        .manage(Arc::new(Mutex::new(Vec::<shock_clock_utils::Block>::new())))
         .manage(Mutex::new(Option::<String>::None))
         .invoke_handler(tauri::generate_handler![
             watcher_state::update_blocklist,
