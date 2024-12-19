@@ -233,18 +233,22 @@ pub fn Watcher() -> impl IntoView {
                 RadioOption value={BlockTypeRoute::Keyword} set_signal={set_block_type} route={block_type} btn_size="btn-sm" name="blockType"()
             }
         }
-        p({move || log()})
+        // p({move || log()})
 
-        button on:click={move |_| {
-            add_block(Block {
-                uuid: uuid::Uuid::new_v4(),
-                name: "App".to_string(),
-                shock_strength: ShockStrength::Normal,
-                block_type: BlockType::App(AppBlockData {
-                    package_name: "com.musically.smth".to_string(),
-                }),
-            });
-        }}("Add smth")
+        // button on:click={move |_| {
+        //     add_block(Block {
+        //         uuid: uuid::Uuid::new_v4(),
+        //         name: "App".to_string(),
+        //         shock_strength: ShockStrength::Normal,
+        //         block_type: BlockType::App(AppBlockData {
+        //             package_name: "com.musically.smth".to_string(),
+        //         }),
+        //     });
+        // }}("Add smth")
+
+        div class="flex justify-center align-center mt-4" {
+            button class="btn btn-primary self-center px-8" on:click={move |_| set_select_modal_is_open(true)}("Add Block")
+        }
 
         div class="overflow-y-auto pb-20" {
             ul class="divide-y divide-gray-200" {
@@ -257,7 +261,6 @@ pub fn Watcher() -> impl IntoView {
             }
         }
 
-        button class="btn btn-primary" on:click={move |_| set_select_modal_is_open(true)}()
         BlockTypeSelectModal set_block_add_type={set_add_modal_block_type} is_open={select_modal_is_open} set_is_open={set_select_modal_is_open} set_add_modal_open={set_add_modal_is_open}()
         BlockAddModal is_open={add_modal_is_open.into()} {
             button class="btn btn-md btn-circle btn-ghost absolute right-2 top-2" on:click={move |_| set_add_modal_is_open(false)}("X")
@@ -273,24 +276,16 @@ pub fn Watcher() -> impl IntoView {
                         {
                             if add_modal_block_type() != BlockAdd::Keyword {
                                 view! {
-                                    <input type="text" placeholder="Name" node_ref={name_input_ref}/>
+                                    <input type="text" placeholder="Name" node_ref={name_input_ref} required/>
                                 }.into_view()
                             } else {
                                 view!{}.into_view()
                             }
                         }
-                        <input type="text" placeholder="Identifier" node_ref={input_ref}/>
+                        <input type="text" placeholder="Identifier" node_ref={input_ref} required/>
                         <input type="submit" value="Create"/>
                     </form>
                 }
-                // mview! {
-                //     h2 ({heading})
-                //     form {
-                //         input type="text" placeholder="Name" node_ref={name_input_ref};
-                //         input type="text" node_ref={input_ref};
-                //         input type="submit" value="Create";
-                //     }
-                // }
             }}
         }
         // BlockAddModal is_open={modal_condition} {
