@@ -33,6 +33,9 @@ async fn check_for_block(
     accessibility_event: AccessibilityEvent,
     blocks: &MutexGuard<'_, Vec<Block>>,
 ) {
+    if accessibility_event.package == "com.shock_clock.app" {
+        return;
+    };
     println!("{}", blocks.len());
     for block in blocks.iter() {
         let blocked = match &block.block_type {
@@ -55,14 +58,17 @@ async fn check_for_block(
 }
 
 async fn process_keyword(accessibility_event: &AccessibilityEvent, keyword: String) -> bool {
-    println!(
-        "Keyword: {}, compared with {}",
-        keyword, accessibility_event.text
-    );
-    accessibility_event.text.contains(&keyword)
+    // println!(
+    //     "Keyword: {}, compared with {}",
+    //     keyword, accessibility_event.text
+    // );
+    accessibility_event.text.contains(&keyword.to_lowercase())
 }
 
 async fn process_app(accessibility_event: &AccessibilityEvent, package: String) -> bool {
-    // if accessibility_event.package != "com.shock_clock.app" {}
-    true
+    println!(
+        "App: {}, compared with {}",
+        package, accessibility_event.package
+    );
+    accessibility_event.package == package
 }

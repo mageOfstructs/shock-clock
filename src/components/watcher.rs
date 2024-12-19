@@ -160,7 +160,7 @@ pub fn Watcher() -> impl IntoView {
         name: "Tiktok".to_string(),
         shock_strength: ShockStrength::Normal,
         block_type: BlockType::App(AppBlockData {
-            package_name: "com.musically.smth".to_string(),
+            package_name: "com.android.chrome".to_string(),
         }),
     });
     add_block(Block {
