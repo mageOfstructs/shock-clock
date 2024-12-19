@@ -6,7 +6,7 @@ use tauri_plugin_accessibility::{AccessibilityEvent, AccessibilityExt};
 use tokio::sync::MutexGuard;
 
 #[tauri::command]
-pub async fn init_accessibility(
+pub fn init_accessibility(
     app: AppHandle,
     state: State<'_, Mutex<Vec<shock_clock_utils::Block>>>,
 ) -> Result<(), ()> {
