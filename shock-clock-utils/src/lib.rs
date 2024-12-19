@@ -16,7 +16,7 @@ pub enum BlockType {
     Keyword,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Copy)]
 pub enum ShockStrength {
     Normal,
     Hard,

@@ -1,7 +1,9 @@
 use leptos::create_effect;
 use leptos::provide_context;
 use leptos::use_context;
+use leptos::Children;
 use leptos::SignalUpdate;
+use leptos::SignalWith;
 use shock_clock_utils::AppBlockData;
 use shock_clock_utils::BlockType;
 use shock_clock_utils::ShockStrength;
@@ -54,7 +56,7 @@ impl Display for WatcherRoute {
 }
 
 #[derive(Clone, Copy, PartialEq)]
-enum BlockTypeRoute {
+pub enum BlockTypeRoute {
     All,
     App,
     Website,
@@ -72,8 +74,38 @@ impl Display for BlockTypeRoute {
     }
 }
 
+fn compBTs(btr: BlockTypeRoute, bt: &BlockType) -> bool {
+    match btr {
+        BlockTypeRoute::All => false,
+        BlockTypeRoute::App => {
+            if let BlockType::App(_) = bt {
+                true
+            } else {
+                false
+            }
+        }
+        BlockTypeRoute::Website => {
+            if let BlockType::Website(_) = bt {
+                true
+            } else {
+                false
+            }
+        }
+        BlockTypeRoute::Keyword => {
+            if let BlockType::Keyword = bt {
+                true
+            } else {
+                false
+            }
+        }
+    }
+}
+
 #[derive(Clone)]
 struct BlocksWS(WriteSignal<Vec<Block>>);
+
+#[derive(Clone)]
+struct SSCSignal(ReadSignal<Option<usize>>, WriteSignal<Option<usize>>);
 
 #[component]
 pub fn Watcher() -> impl IntoView {
@@ -83,50 +115,39 @@ pub fn Watcher() -> impl IntoView {
     let (blocks, set_blocks) = create_signal(Vec::new());
     provide_context(BlocksWS(set_blocks));
 
-    let filtered_blocks = move || match block_type() {
-        BlockTypeRoute::All => blocks(),
-        BlockTypeRoute::App => blocks()
-            .into_iter()
-            .filter(|block: &Block| match block.block_type {
-                BlockType::App(_) => true,
-                _ => false,
-            })
-            .collect(),
-        BlockTypeRoute::Website => blocks()
-            .into_iter()
-            .filter(|block: &Block| match block.block_type {
-                BlockType::Website(_) => true,
-                _ => false,
-            })
-            .collect(),
-        BlockTypeRoute::Keyword => blocks()
-            .into_iter()
-            .filter(|block: &Block| match block.block_type {
-                BlockType::Keyword => true,
-                _ => false,
-            })
-            .collect(),
+    let filtered_blocks = move || {
+        let res: Vec<(usize, Block)> = if let BlockTypeRoute::All = block_type() {
+            blocks().into_iter().enumerate().collect()
+        } else {
+            let btr = block_type();
+            blocks()
+                .into_iter()
+                .filter(|block| compBTs(btr, &block.block_type))
+                .enumerate()
+                .collect()
+        };
+        res
     };
 
     let add_block = move |block: Block| set_blocks.update(|blocks| blocks.push(block));
 
-    let remove_block = move |uuid: uuid::Uuid| {
-        set_blocks.update(|blocks| blocks.retain(|block| block.uuid != uuid))
-    };
-
-    let change_shock_strength = move |uuid: uuid::Uuid, shock_strength| {
-        set_blocks.update(|blocks| {
-            blocks
-                .iter_mut()
-                .find(|block| block.uuid == uuid)
-                .expect("m")
-                .shock_strength = shock_strength
-        })
+    let change_shock_strength = move |i: usize, shock_strength| {
+        set_blocks.update(|blocks| blocks[i].shock_strength = shock_strength)
     };
 
     let (select_modal_is_open, set_select_modal_is_open) = create_signal(false);
     let (add_modal_is_open, set_add_modal_is_open) = create_signal(false);
     let (add_modal_block_type, set_add_modal_block_type) = create_signal(BlockAdd::App);
+    let (shockstren_diag_open, set_shockstren_diag_open) = create_signal(Option::<usize>::None);
+    let modal_condition = Signal::derive(move || shockstren_diag_open().is_some());
+    provide_context(SSCSignal(shockstren_diag_open, set_shockstren_diag_open));
+    let check_condition = move |ss: ShockStrength| {
+        let mut ret = false;
+        if let Some(i) = shockstren_diag_open() {
+            blocks.with(|blocks| ret = blocks[i].shock_strength == ss);
+        }
+        ret
+    };
 
     add_block(Block {
         uuid: uuid::Uuid::new_v4(),
@@ -198,16 +219,47 @@ pub fn Watcher() -> impl IntoView {
             ul class="divide-y divide-gray-200" {
                 For
                     each={move || filtered_blocks()}
-                    key={|block| block.uuid}
-                    children={move |block| mview! {
-                        BlockElement {block}()
+                    key={|(_, block)| block.uuid}
+                    children={move |(i, block)| mview! {
+                        BlockElement i={i} {block}()
                     }}()
             }
         }
 
         button class="btn btn-primary" on:click={move |_| set_select_modal_is_open(true)}()
         BlockTypeSelectModal set_block_add_type={set_add_modal_block_type} is_open={select_modal_is_open} set_is_open={set_select_modal_is_open} set_add_modal_open={set_add_modal_is_open}()
-        BlockAddModal block_add_type={add_modal_block_type} is_open={add_modal_is_open} set_is_open={set_add_modal_is_open}()
+        BlockAddModal is_open={add_modal_is_open.into()} {
+            button class="btn btn-md btn-circle btn-ghost absolute right-2 top-2" on:click={move |_| set_add_modal_is_open(false)}("X")
+            {move || match add_modal_block_type.get() {
+                BlockAdd::App => mview! {
+                    h2 ("Block an App")
+                },
+                BlockAdd::Website => mview! {
+                    h2 ("Block a Website")
+                },
+                BlockAdd::Keyword => mview! {
+                    h2 ("Block a Keyword")
+                }
+            }}
+        }
+        BlockAddModal is_open={modal_condition} {
+            // button class="btn btn-md btn-circle btn-ghost relative right-2" on:click={move |_| set_shockstren_diag_open(None)}("X")
+
+            div class="form-control" {
+                label class="label cursor-pointer m-4" {
+                    span class="label-text" { "Normal" }
+                    SSCRadioButton checked_condition={check_condition} shockstren={ShockStrength::Normal};
+                }
+                label class="label cursor-pointer m-4" {
+                    span class="label-text" { "Hard" }
+                    SSCRadioButton checked_condition={check_condition} shockstren={ShockStrength::Hard};
+                }
+                label class="label cursor-pointer m-4" {
+                    span class="label-text" { "Ultra" }
+                    SSCRadioButton checked_condition={check_condition} shockstren={ShockStrength::Ultra};
+                }
+            }
+        }
     }
 }
 
@@ -241,8 +293,9 @@ where
 }
 
 #[component]
-fn BlockElement(block: Block) -> impl IntoView {
+fn BlockElement(i: usize, block: Block) -> impl IntoView {
     let set_blocks = use_context::<BlocksWS>().unwrap().0;
+    let set_ssci = use_context::<SSCSignal>().unwrap().1;
     let remove_block = move |uuid: uuid::Uuid| {
         set_blocks.update(|blocks| blocks.retain(|block| block.uuid != uuid))
     };
@@ -266,7 +319,7 @@ fn BlockElement(block: Block) -> impl IntoView {
             }
             div class="flex justify-around flex-auto w-1/2" {
                 // komischer ShockStrength button
-                button class="btn btn-warning" {
+                button class="btn btn-warning" on:click={move |_| set_ssci(Some(i))} {
                     Icon width="2em" height="2em" icon={i::BsLightningCharge}()
                 }
                 // Delete Button
@@ -310,26 +363,45 @@ fn BlockTypeSelectModal(
 }
 
 #[component]
-fn BlockAddModal(
-    block_add_type: ReadSignal<BlockAdd>,
-    is_open: ReadSignal<bool>,
-    set_is_open: WriteSignal<bool>,
-) -> impl IntoView {
+fn BlockAddModal(is_open: Signal<bool>, children: Children) -> impl IntoView {
     mview! {
         dialog class={move || format!("modal {}", if is_open() {"modal-open"} else {""})} {
             div class="modal-box" {
-                button class="btn btn-md btn-circle btn-ghost absolute right-2 top-2" on:click={move |_| set_is_open(false)}("X")
-                {move || match block_add_type.get() {
-                    BlockAdd::App => mview! {
-                        h2 ("Block an App")
-                    },
-                    BlockAdd::Website => mview! {
-                        h2 ("Block a Website")
-                    },
-                    BlockAdd::Keyword => mview! {
-                        h2 ("Block a Keyword")
-                    }
-                }}
+                {children()}
+            }
+        }
+    }
+}
+
+fn change_shock_strength(set_blocks: WriteSignal<Vec<Block>>, i: usize, shockstren: ShockStrength) {
+    set_blocks.update(|blocks| blocks[i].shock_strength = shockstren)
+}
+
+#[component]
+fn SSCRadioButton(
+    checked_condition: impl Fn(ShockStrength) -> bool + 'static,
+    shockstren: ShockStrength,
+) -> impl IntoView {
+    let newtype = use_context::<SSCSignal>().unwrap();
+    let shockstren_diag_open = newtype.0;
+    let set_shockstren_diag_open = newtype.1;
+
+    let set_blocks = use_context::<BlocksWS>().unwrap().0;
+    mview! {
+            {move || if checked_condition(shockstren) {
+                mview! {
+                    input type="radio" name="radio-10" class="radio checked:bg-red-500" checked="checked" on:click={move |_| {
+        change_shock_strength(set_blocks, shockstren_diag_open().unwrap(), shockstren);
+        set_shockstren_diag_open(None);
+    }};
+                }
+            } else {
+                mview! {
+                    input type="radio" name="radio-10" class="radio checked:bg-red-500" on:click={move |_| {
+        change_shock_strength(set_blocks, shockstren_diag_open().unwrap(), shockstren);
+        set_shockstren_diag_open(None);
+    }};
+                }
             }
         }
     }
