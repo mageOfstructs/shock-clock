@@ -21,3 +21,9 @@ pub struct AccessibilityEvent {
     pub package: String,
     pub event_type: String,
 }
+
+#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+pub struct GoToHomeScreenArgs;
+
+#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+pub struct GoToHomeScreenResult;

@@ -57,6 +57,11 @@ class ExamplePlugin(private val activity: Activity) : Plugin(activity) {
     }
 
     @Command
+    fun goToHomeScreen(invoke: Invoke) {
+        implementation.goToHomeScreen();
+    }
+
+    @Command
     fun ping(invoke: Invoke) {
         val args = invoke.parseArgs(PingArgs::class.java)
 

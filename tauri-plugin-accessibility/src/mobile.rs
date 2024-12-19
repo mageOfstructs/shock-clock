@@ -36,4 +36,13 @@ impl<R: Runtime> Accessibility<R> {
             .run_mobile_plugin("getEvent", payload)
             .map_err(Into::into)
     }
+
+    pub fn go_to_home_screen(
+        &self,
+        payload: GoToHomeScreenArgs,
+    ) -> crate::Result<GoToHomeScreenResult> {
+        self.0
+            .run_mobile_plugin("goToHomeScreen", payload)
+            .map_err(Into::into)
+    }
 }
