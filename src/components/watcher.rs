@@ -131,10 +131,6 @@ pub fn Watcher() -> impl IntoView {
 
     let add_block = move |block: Block| set_blocks.update(|blocks| blocks.push(block));
 
-    let change_shock_strength = move |i: usize, shock_strength| {
-        set_blocks.update(|blocks| blocks[i].shock_strength = shock_strength)
-    };
-
     let (select_modal_is_open, set_select_modal_is_open) = create_signal(false);
     let (add_modal_is_open, set_add_modal_is_open) = create_signal(false);
     let (add_modal_block_type, set_add_modal_block_type) = create_signal(BlockAdd::App);
