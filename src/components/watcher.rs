@@ -293,24 +293,24 @@ pub fn Watcher() -> impl IntoView {
                 // }
             }}
         }
-        BlockAddModal is_open={modal_condition} {
-            // button class="btn btn-md btn-circle btn-ghost relative right-2" on:click={move |_| set_shockstren_diag_open(None)}("X")
-
-            div class="form-control" {
-                label class="label cursor-pointer m-4" {
-                    span class="label-text" { "Normal" }
-                    SSCRadioButton checked_condition={check_condition} shockstren={ShockStrength::Normal};
-                }
-                label class="label cursor-pointer m-4" {
-                    span class="label-text" { "Hard" }
-                    SSCRadioButton checked_condition={check_condition} shockstren={ShockStrength::Hard};
-                }
-                label class="label cursor-pointer m-4" {
-                    span class="label-text" { "Ultra" }
-                    SSCRadioButton checked_condition={check_condition} shockstren={ShockStrength::Ultra};
-                }
-            }
-        }
+        // BlockAddModal is_open={modal_condition} {
+        //     // button class="btn btn-md btn-circle btn-ghost relative right-2" on:click={move |_| set_shockstren_diag_open(None)}("X")
+        //
+        //     div class="form-control" {
+        //         label class="label cursor-pointer m-4" {
+        //             span class="label-text" { "Normal" }
+        //             SSCRadioButton checked_condition={check_condition} shockstren={ShockStrength::Normal};
+        //         }
+        //         label class="label cursor-pointer m-4" {
+        //             span class="label-text" { "Hard" }
+        //             SSCRadioButton checked_condition={check_condition} shockstren={ShockStrength::Hard};
+        //         }
+        //         label class="label cursor-pointer m-4" {
+        //             span class="label-text" { "Ultra" }
+        //             SSCRadioButton checked_condition={check_condition} shockstren={ShockStrength::Ultra};
+        //         }
+        //     }
+        // }
     }
 }
 
@@ -390,11 +390,11 @@ fn BlockElement(i: usize, block: Block) -> impl IntoView {
                     }})
                 }
             }
-            div class="flex justify-around flex-auto w-1/2" {
+            div class="flex justify-end flex-auto w-1/2" {
                 // komischer ShockStrength button
-                button class="btn btn-warning" on:click={move |_| set_ssci(Some(i))} {
-                    Icon width="2em" height="2em" icon={i::BsLightningCharge}()
-                }
+                // button class="btn btn-warning" on:click={move |_| set_ssci(Some(i))} {
+                //     Icon width="2em" height="2em" icon={i::BsLightningCharge}()
+                // }
                 // Delete Button
                 button class="btn btn-error" on:click={move |_| remove_block(block.uuid)} {
                     Icon width="2em" height="2em" icon={i::BsTrash}()
@@ -450,32 +450,32 @@ fn change_shock_strength(set_blocks: WriteSignal<Vec<Block>>, i: usize, shockstr
     set_blocks.update(|blocks| blocks[i].shock_strength = shockstren)
 }
 
-#[component]
-fn SSCRadioButton(
-    checked_condition: impl Fn(ShockStrength) -> bool + 'static,
-    shockstren: ShockStrength,
-) -> impl IntoView {
-    let newtype = use_context::<SSCSignal>().unwrap();
-    let shockstren_diag_open = newtype.0;
-    let set_shockstren_diag_open = newtype.1;
-
-    let set_blocks = use_context::<BlocksWS>().unwrap().0;
-    mview! {
-            {move || if checked_condition(shockstren) {
-                mview! {
-                    input type="radio" name="radio-10" class="radio checked:bg-red-500" checked="checked" on:click={move |_| {
-        change_shock_strength(set_blocks, shockstren_diag_open().unwrap(), shockstren);
-        set_shockstren_diag_open(None);
-    }};
-                }
-            } else {
-                mview! {
-                    input type="radio" name="radio-10" class="radio checked:bg-red-500" on:click={move |_| {
-        change_shock_strength(set_blocks, shockstren_diag_open().unwrap(), shockstren);
-        set_shockstren_diag_open(None);
-    }};
-                }
-            }
-        }
-    }
-}
+// #[component]
+// fn SSCRadioButton(
+//     checked_condition: impl Fn(ShockStrength) -> bool + 'static,
+//     shockstren: ShockStrength,
+// ) -> impl IntoView {
+//     let newtype = use_context::<SSCSignal>().unwrap();
+//     let shockstren_diag_open = newtype.0;
+//     let set_shockstren_diag_open = newtype.1;
+//
+//     let set_blocks = use_context::<BlocksWS>().unwrap().0;
+//     mview! {
+//             {move || if checked_condition(shockstren) {
+//                 mview! {
+//                     input type="radio" name="radio-10" class="radio checked:bg-red-500" checked="checked" on:click={move |_| {
+//         change_shock_strength(set_blocks, shockstren_diag_open().unwrap(), shockstren);
+//         set_shockstren_diag_open(None);
+//     }};
+//                 }
+//             } else {
+//                 mview! {
+//                     input type="radio" name="radio-10" class="radio checked:bg-red-500" on:click={move |_| {
+//         change_shock_strength(set_blocks, shockstren_diag_open().unwrap(), shockstren);
+//         set_shockstren_diag_open(None);
+//     }};
+//                 }
+//             }
+//         }
+//     }
+// }
