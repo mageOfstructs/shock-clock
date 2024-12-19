@@ -138,5 +138,23 @@ pub use watcher::Watcher;
 
 #[component]
 pub fn Games() -> impl IntoView {
-    mview! {}
+    mview! {
+        h1 class="my-4" { "Credits" }
+        p { "made with blood, sweat, tears and move closures by"}
+        ul {
+            li {
+                a href="https://github.com/mageofstructs" {"@mageOfStructs (Jason)"}
+            }
+            li {
+                a href="https://github.com/thronkatze0" {"@thronkatze0 (Vincent)"}
+            }
+        }
+        h3 { "Special Thanks" }
+        ul {
+            li {"Linus Torvalds - Creator of Linux"}
+            li {"Ken Thompson - Co-Creator of UNIX"}
+            li {"Dennis Richie - Creator of C/Co-Creator of UNIX"}
+            li {"Bjarne Stroustrup - Creator of C++"}
+        }
+    }
 }
