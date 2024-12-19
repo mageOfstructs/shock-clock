@@ -4,8 +4,8 @@ use std::thread;
 use shock_clock_utils::{Block, BlockType, ShockStrength};
 use tauri::async_runtime::{self, Mutex};
 use tauri::{AppHandle, Manager, State};
-use tauri_plugin_accessibility::EventPayload;
 use tauri_plugin_accessibility::{AccessibilityEvent, AccessibilityExt};
+use tauri_plugin_accessibility::{EventPayload, GoToHomeScreenArgs};
 use tokio::sync::MutexGuard;
 
 #[tauri::command]
@@ -33,6 +33,7 @@ async fn check_for_block(
     app: AppHandle,
     accessibility_event: AccessibilityEvent,
     blocks: &MutexGuard<'_, Vec<Block>>,
+    app: &AppHandle,
 ) {
     if accessibility_event.package == "com.shock_clock.app" {
         return;

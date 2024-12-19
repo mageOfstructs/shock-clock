@@ -20,5 +20,10 @@ class Example : AccessibilityService() {
     override fun onInterrupt() {
         // Handle service interruption if needed
     }
+
+    fun goToHomeScreen() {
+        println("Yeah I did this")
+        performGlobalAction(GLOBAL_ACTION_HOME)
+    }
 }
 
