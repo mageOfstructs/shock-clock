@@ -27,19 +27,6 @@ struct ShockArgs {
     duration: u16,
 }
 
-#[wasm_bindgen]
-extern "C" {
-    // invoke without arguments
-    #[wasm_bindgen(js_namespace = ["window", "__TAURI__", "core"], js_name = invoke)]
-    async fn invoke_without_args(cmd: &str) -> JsValue;
-
-    // invoke with arguments (default)
-    #[wasm_bindgen(js_namespace = ["window", "__TAURI__", "core"])]
-    async fn invoke(cmd: &str, args: JsValue) -> JsValue;
-
-    // They need to have different names!
-}
-
 async fn update_clock_stat(set_clock_stat: WriteSignal<bool>) {
     let is_connected: IsConnected =
         from_value(invoke_without_args("is_connected").await).expect("JsValue(null)");

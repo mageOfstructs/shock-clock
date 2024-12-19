@@ -1,7 +1,10 @@
 // Orthographietrainer Password: 4172
 
 //use shock_clock_ui::components::Home;
+use serde::{Deserialize, Serialize};
+use serde_wasm_bindgen::{from_value, to_value};
 use std::fmt::Display;
+use wasm_bindgen::prelude::*;
 
 use icondata as i;
 use icondata_core::IconData;
@@ -36,6 +39,10 @@ struct Route(RwSignal<SelectedRoute>);
 
 #[component]
 pub fn App() -> impl IntoView {
+    // spawn_local((|| async {
+    //     invoke_without_args("init_accessibility").await;
+    // })());
+
     let selected_route = RwSignal::new(SelectedRoute::Watcher);
     provide_context(Route(selected_route));
 
