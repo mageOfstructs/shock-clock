@@ -2,6 +2,7 @@ use leptos::create_effect;
 use leptos::provide_context;
 use leptos::use_context;
 use leptos::Children;
+use leptos::Signal;
 use leptos::SignalUpdate;
 use leptos::SignalWith;
 use shock_clock_utils::AppBlockData;
