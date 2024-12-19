@@ -13,18 +13,7 @@ use leptos_icons::*;
 use leptos_mview::mview;
 use shock_clock_ui::components::{Games, Home, Watcher};
 
-#[wasm_bindgen]
-extern "C" {
-    // invoke without arguments
-    #[wasm_bindgen(js_namespace = ["window", "__TAURI__", "core"], js_name = invoke)]
-    pub async fn invoke_without_args(cmd: &str) -> JsValue;
-
-    // invoke with arguments (default)
-    #[wasm_bindgen(js_namespace = ["window", "__TAURI__", "core"])]
-    pub async fn invoke(cmd: &str, args: JsValue) -> JsValue;
-
-    // They need to have different names!
-}
+use shock_clock_ui::invoke_without_args;
 
 #[derive(Clone, PartialEq, Copy)]
 enum SelectedRoute {
@@ -52,9 +41,9 @@ struct Route(RwSignal<SelectedRoute>);
 
 #[component]
 pub fn App() -> impl IntoView {
-    // spawn_local((|| async {
-    //     invoke_without_args("init_accessibility").await;
-    // })());
+    spawn_local((|| async {
+        invoke_without_args("init_accessibility").await;
+    })());
 
     let selected_route = RwSignal::new(SelectedRoute::Watcher);
     provide_context(Route(selected_route));
