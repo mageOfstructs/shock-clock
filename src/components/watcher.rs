@@ -165,13 +165,13 @@ pub fn Watcher() -> impl IntoView {
         block_type: BlockType::Keyword,
     });
 
-    Effect::new(move |_| {
-        logging::log!("yeah async");
-        let cloned_blocks = blocks();
-        spawn_local(async move {
-            update_block_data(&cloned_blocks).await;
-        });
-    });
+    // Effect::new(move |_| {
+    //     logging::log!("yeah async");
+    //     let cloned_blocks = blocks();
+    //     spawn_local(async move {
+    //         update_block_data(&cloned_blocks).await;
+    //     });
+    // });
 
     let log = move || {
         format!(
