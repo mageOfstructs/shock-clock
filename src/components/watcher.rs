@@ -27,14 +27,24 @@ use leptos::ReadSignal;
 use leptos::SignalGet;
 use leptos::WriteSignal;
 use leptos_mview::mview;
+use serde::{Deserialize, Serialize};
 use shock_clock_utils::Block;
 
 use serde_wasm_bindgen::to_value;
 
 use super::invoke;
 
-async fn update_block_data(blocks: &Vec<Block>) {
-    invoke("update_blocklist", to_value(blocks).expect("real bad")).await;
+#[derive(Deserialize, Serialize)]
+struct BlockArgs {
+    blocks: Vec<Block>,
+}
+
+async fn update_block_data(blocks: Vec<Block>) {
+    invoke(
+        "update_blocklist",
+        to_value(&BlockArgs { blocks }).expect("real bad"),
+    )
+    .await;
 }
 
 #[derive(Clone, Copy, PartialEq)]
@@ -169,7 +179,7 @@ pub fn Watcher() -> impl IntoView {
         logging::log!("yeah async");
         let cloned_blocks = blocks();
         spawn_local(async move {
-            update_block_data(&cloned_blocks).await;
+            update_block_data(cloned_blocks).await;
         });
     });
 
