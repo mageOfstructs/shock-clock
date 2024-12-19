@@ -36,6 +36,24 @@ struct GreetArgs<'a> {
     name: &'a str,
 }
 
+pub async fn wait_for_addr(set_clock_connected: WriteSignal<bool>) -> bool {
+    if from_value(invoke_without_args("is_connected").await).expect("JsValue(null)") {
+        set_clock_connected(true);
+        return true;
+    }
+    let res: Result<event::Event<()>, tauri_sys::Error> = event::once("clock_found").await;
+    match res {
+        Ok(_) => {
+            set_clock_connected(true);
+            true
+        }
+        Err(err) => {
+            logging::error!("Error: {err}");
+            false
+        }
+    }
+}
+
 #[component]
 pub fn Home() -> impl IntoView {
     let shock_test = move |_| {
@@ -49,17 +67,8 @@ pub fn Home() -> impl IntoView {
             println!("{res:?}");
         })());
     };
-    let wait_for_addr = || async {
-        logging::log!("waiting for addr");
-        let res: Result<event::Event<()>, tauri_sys::Error> = event::once("clock_found").await;
-        match res {
-            Ok(_) => true,
-            Err(err) => {
-                logging::error!("Error: {err}");
-                false
-            }
-        }
-    };
+
+    let (clock_connected, set_clock_connected) = create_signal(false);
     let (clock_stat, set_clock_stat) = create_signal(false);
     let get_icon = move || {
         if clock_stat() {
@@ -75,15 +84,24 @@ pub fn Home() -> impl IntoView {
                 div class="stats" {
                     div class="stat" {
                         span class="stat-title" { "Watcher" }
-                        Icon icon={i::AiWarningFilled};
+                        Icon icon={i::AiThunderboltFilled};
                     }
                     div class="stat" {
                         span class="stat-title" { "Clock" }
                         Await
-                            future={wait_for_addr}
+                            future={move || wait_for_addr(set_clock_connected)}
                             |_| {
                                 Icon icon={i::AiThunderboltFilled};
                             }
+                        {move || if !clock_connected() {
+                            mview!{
+                                Icon icon={i::AiWarningFilled};
+                            }.into_view()
+                            } else {
+                            mview!{
+                            }.into_view()
+                                }
+                        }
                     }
                 }
 

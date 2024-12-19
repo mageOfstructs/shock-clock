@@ -145,12 +145,7 @@ pub fn shock_loop(
 
 #[tauri::command]
 pub async fn is_connected(state: State<'_, Mutex<Option<String>>>) -> Result<IsConnected, ()> {
-    println!("Seeing if device is connected...");
-    let mut state = state.lock().await;
-    if let None = *state {
-        *state = scan().await;
-    }
-    Ok(IsConnected(state.is_some()))
+    Ok(IsConnected(state.lock().await.is_some()))
 }
 
 async fn check_connected(app: &AppHandle) -> bool {
@@ -177,6 +172,7 @@ pub fn init_scanloop(app: AppHandle) {
                 }
                 thread::sleep(Duration::from_secs(10));
             }
-        })())
+        })());
+        println!("Freedom!");
     });
 }
