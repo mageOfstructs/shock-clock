@@ -38,9 +38,6 @@ struct GreetArgs<'a> {
 
 #[component]
 pub fn Home() -> impl IntoView {
-    spawn_local((|| async {
-        invoke_without_args("init_scanloop").await;
-    })());
     let shock_test = move |_| {
         spawn_local((async move || {
             // FIXME: currently still blocks the thread
@@ -53,6 +50,7 @@ pub fn Home() -> impl IntoView {
         })());
     };
     let wait_for_addr = || async {
+        logging::log!("waiting for addr");
         let res: Result<event::Event<()>, tauri_sys::Error> = event::once("clock_found").await;
         match res {
             Ok(_) => true,
