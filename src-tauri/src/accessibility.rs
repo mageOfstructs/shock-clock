@@ -3,7 +3,7 @@ use std::thread;
 
 use shock_clock_utils::{Block, BlockType, ShockStrength};
 use tauri::async_runtime::{self, Mutex};
-use tauri::{AppHandle, State};
+use tauri::{AppHandle, Manager, State};
 use tauri_plugin_accessibility::EventPayload;
 use tauri_plugin_accessibility::{AccessibilityEvent, AccessibilityExt};
 use tokio::sync::MutexGuard;
@@ -21,7 +21,7 @@ pub fn init_accessibility(
             loop {
                 let event = app.accessibility().get_event(EventPayload).unwrap();
                 if event.text != "" {
-                    check_for_block(event, &state.lock().await).await;
+                    check_for_block(app, event, &state.lock().await).await;
                 }
             }
         });
@@ -30,6 +30,7 @@ pub fn init_accessibility(
 }
 
 async fn check_for_block(
+    app: AppHandle,
     accessibility_event: AccessibilityEvent,
     blocks: &MutexGuard<'_, Vec<Block>>,
 ) {
@@ -52,6 +53,7 @@ async fn check_for_block(
                 "Blocked!!!: {:?} {:?}",
                 block.block_type, block.shock_strength
             );
+            super::ble::shock(app.state::<Mutex<Option<String>>>(), 500);
             break;
         }
     }
