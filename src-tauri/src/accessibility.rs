@@ -22,7 +22,7 @@ pub fn init_accessibility(
                 let app_clone = app.clone();
                 let event = app_clone.accessibility().get_event(EventPayload).unwrap();
                 if event.text != "" {
-                    check_for_block(app_clone, event, &state.lock().await).await;
+                    check_for_block(event, &state.lock().await, &app).await;
                 }
             }
         });
@@ -31,7 +31,6 @@ pub fn init_accessibility(
 }
 
 async fn check_for_block(
-    app: AppHandle,
     accessibility_event: AccessibilityEvent,
     blocks: &MutexGuard<'_, Vec<Block>>,
     app: &AppHandle,
