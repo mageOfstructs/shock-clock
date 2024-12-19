@@ -18,4 +18,6 @@ pub struct EventPayload;
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 pub struct AccessibilityEvent {
     pub text: String,
+    pub package: String,
+    pub event_type: String,
 }

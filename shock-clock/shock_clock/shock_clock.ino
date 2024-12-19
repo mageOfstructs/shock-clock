@@ -23,10 +23,8 @@ void shock_loop(unsigned short duration) {
   unsigned short cooldown_ms;
   cooldown.readValue(cooldown_ms);
   shock_loop_active.readValue(loop_active);
-  while (loop_active) {
+  while (shock_loop_active.value()) {
     shock(duration, cooldown_ms);
-    loop_active--;
-    // shock_loop_active.readValue(loop_active);
   }
 }
 
@@ -85,9 +83,7 @@ void shockActivated(BLEDevice central, BLECharacteristic characteristic) {
   Serial.print(duration);
   Serial.println();
 
-  unsigned short loop_active;
-  shock_loop_active.readValue(loop_active);
-  if (loop_active) {
+  if (shock_loop_active.value()) {
     shock_loop(duration);
   } else if (duration > 0 && duration < MAX_SHOCK_DURATION) {
     shock(duration, cooldown.value());

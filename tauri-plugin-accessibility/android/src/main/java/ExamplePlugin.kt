@@ -9,6 +9,7 @@ import app.tauri.plugin.JSObject
 import app.tauri.plugin.Plugin
 import app.tauri.plugin.Invoke
 import org.json.JSONObject
+import android.view.accessibility.AccessibilityEvent
 
 @InvokeArg
 class PingArgs {
@@ -22,38 +23,32 @@ class ExamplePlugin(private val activity: Activity) : Plugin(activity) {
     @Command
     fun getEvent(invoke: Invoke) {
         val ret = JSObject()
-        println("yüah")
 
-        // Get the first event from the shared queue
         val event = AccessibilityEventManager.eventQueue.poll()
-
         val rootNode: AccessibilityNodeInfo? = event?.source
-        val stringBuilder = StringBuilder()
+        if (event == null || rootNode == null) {
+            ret.put("text", "")
+            ret.put("package", "")
+            ret.put("event_type", "")
+        } else {
+            val stringBuilder = StringBuilder()
+            traverseAccessibilityTree(rootNode, stringBuilder)
+            val text = stringBuilder.toString()
+            ret.put("text", text)
+            ret.put("package", event.packageName ?: "")
+            ret.put("event_type", AccessibilityEvent.eventTypeToString(event.eventType))
 
-        // Traverse the accessibility tree to gather text content
-        traverseAccessibilityTree(rootNode, stringBuilder)
-
-        val text = stringBuilder.toString()
-        if (text == "") return
-        val test = JSONObject()
-        test.put("text", "weoih")
-        println(test)
-
-        ret.put("text", "marp")
-        println(ret)
-
+        }
         invoke.resolve(ret)
     }
 
     private fun traverseAccessibilityTree(node: AccessibilityNodeInfo?, stringBuilder: StringBuilder) {
         node?.let {
-            // Get the text from the node, ensuring it's not null
             val text = it.text
             if (!text.isNullOrEmpty()) {
                 stringBuilder.append(text)
             }
 
-            // Traverse all child nodes
             for (i in 0 until it.childCount) {
                 val childNode = it.getChild(i)
                 childNode?.let { traverseAccessibilityTree(it, stringBuilder) }

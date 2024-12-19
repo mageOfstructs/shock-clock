@@ -1,13 +1,9 @@
 mod watcher_state;
 use std::thread;
 use std::time::Duration;
-
-use serde::{Deserialize, Serialize};
+use tauri::async_runtime;
 use tauri::async_runtime::Mutex;
-use tauri::App;
-use tauri::AppHandle;
-use tauri::Listener;
-use tauri::Runtime;
+use tauri::{Builder, Manager};
 use tauri_plugin_accessibility::AccessibilityExt;
 use tauri_plugin_accessibility::EventPayload;
 
@@ -22,12 +18,24 @@ fn greet(name: &str) -> String {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .manage(Mutex::new(Vec::<shock_clock_utils::Block>::new()))
+        .manage(Mutex::new(Option::<String>::None))
         .setup(|app| {
             let accessibility = app.accessibility();
+            let state = app.state::<Mutex<Vec<shock_clock_utils::Block>>>();
 
             loop {
                 let event = accessibility.get_event(EventPayload).unwrap();
-                // println!("{:?}", event);
+                if event.text != "" {
+                    println!(
+                        "{}\n{}\n{}\n\n",
+                        event.package, event.event_type, event.text
+                    );
+                    async_runtime::block_on(async {
+                        let blocks = state.lock().await;
+                        println!("{}", blocks.len());
+                    });
+                }
             }
 
             // app.listen_any("accessibilityEvent", |event| {
@@ -35,13 +43,11 @@ pub fn run() {
             //         println!("New event {}", payload.message);
             //     }
             // });
-            Ok(())
+            // Ok(())
         })
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_blec::init())
         .plugin(tauri_plugin_accessibility::init())
-        .manage(Mutex::new(Vec::<shock_clock_utils::Block>::new()))
-        .manage(Mutex::new(Option::<String>::None))
         .invoke_handler(tauri::generate_handler![
             watcher_state::update_blocklist,
             greet,

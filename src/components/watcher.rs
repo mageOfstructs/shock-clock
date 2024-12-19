@@ -1,7 +1,10 @@
 use leptos::create_effect;
+use leptos::logging;
 use leptos::provide_context;
+use leptos::spawn_local;
 use leptos::use_context;
 use leptos::Children;
+use leptos::Effect;
 use leptos::Signal;
 use leptos::SignalUpdate;
 use leptos::SignalWith;
@@ -162,13 +165,13 @@ pub fn Watcher() -> impl IntoView {
         block_type: BlockType::Keyword,
     });
 
-    // Effect::new(move |_| {
-    //     logging::log!("yeah async");
-    //     let cloned_blocks = blocks();
-    //     spawn_local(async move {
-    //         update_block_data(&cloned_blocks).await;
-    //     });
-    // });
+    Effect::new(move |_| {
+        logging::log!("yeah async");
+        let cloned_blocks = blocks();
+        spawn_local(async move {
+            update_block_data(&cloned_blocks).await;
+        });
+    });
 
     let log = move || {
         format!(
