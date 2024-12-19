@@ -19,9 +19,10 @@ pub fn init_accessibility(
             println!("init accessibility service");
 
             loop {
-                let event = app.accessibility().get_event(EventPayload).unwrap();
+                let app_clone = app.clone();
+                let event = app_clone.accessibility().get_event(EventPayload).unwrap();
                 if event.text != "" {
-                    check_for_block(app, event, &state.lock().await).await;
+                    check_for_block(app_clone, event, &state.lock().await).await;
                 }
             }
         });
@@ -53,7 +54,7 @@ async fn check_for_block(
                 "Blocked!!!: {:?} {:?}",
                 block.block_type, block.shock_strength
             );
-            super::ble::shock(app.state::<Mutex<Option<String>>>(), 500);
+            super::ble::shock_internal(app.state::<Mutex<Option<String>>>(), 500).await;
             break;
         }
     }
