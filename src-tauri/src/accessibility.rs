@@ -1,4 +1,4 @@
-use shock_clock_utils::Block;
+use shock_clock_utils::{Block, BlockType, ShockStrength};
 use tauri::async_runtime::{self, Mutex};
 use tauri::{AppHandle, State};
 use tauri_plugin_accessibility::EventPayload;
@@ -24,7 +24,7 @@ pub async fn init_accessibility(
                     println!("thread spawned");
                     println!("{}", lock.len());
 
-                    // process_keyword(event, lock);
+                    check_for_block(event, lock);
                 });
             }
         }
@@ -32,8 +32,13 @@ pub async fn init_accessibility(
     Ok(())
 }
 
-// async fn process_keyword(accessibility_event: AccessibilityEvent, blocks: MutexGuard<'_, Vec<Block>>) {
-//     blocks.iter().map(|block| match block {
-//
-//     }).any(|block|);
-// }
+async fn check_for_block(
+    accessibility_event: AccessibilityEvent,
+    blocks: MutexGuard<'_, Vec<Block>>,
+) {
+    blocks.iter().for_each(|block| {
+        match block.block_type {
+            BlockType::Keyword => 
+        }
+    });
+}
