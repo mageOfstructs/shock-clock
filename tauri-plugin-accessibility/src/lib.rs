@@ -1,6 +1,6 @@
 use tauri::{
-  plugin::{Builder, TauriPlugin},
-  Manager, Runtime,
+    plugin::{Builder, TauriPlugin},
+    Manager, Runtime,
 };
 
 pub use models::*;
@@ -23,26 +23,25 @@ use mobile::Accessibility;
 
 /// Extensions to [`tauri::App`], [`tauri::AppHandle`] and [`tauri::Window`] to access the accessibility APIs.
 pub trait AccessibilityExt<R: Runtime> {
-  fn accessibility(&self) -> &Accessibility<R>;
+    fn accessibility(&self) -> &Accessibility<R>;
 }
 
 impl<R: Runtime, T: Manager<R>> crate::AccessibilityExt<R> for T {
-  fn accessibility(&self) -> &Accessibility<R> {
-    self.state::<Accessibility<R>>().inner()
-  }
+    fn accessibility(&self) -> &Accessibility<R> {
+        self.state::<Accessibility<R>>().inner()
+    }
 }
 
 /// Initializes the plugin.
 pub fn init<R: Runtime>() -> TauriPlugin<R> {
-  Builder::new("accessibility")
-    .invoke_handler(tauri::generate_handler![commands::ping])
-    .setup(|app, api| {
-      #[cfg(mobile)]
-      let accessibility = mobile::init(app, api)?;
-      #[cfg(desktop)]
-      let accessibility = desktop::init(app, api)?;
-      app.manage(accessibility);
-      Ok(())
-    })
-    .build()
+    Builder::new("accessibility")
+        .setup(|app, api| {
+            #[cfg(mobile)]
+            let accessibility = mobile::init(app, api)?;
+            #[cfg(desktop)]
+            let accessibility = desktop::init(app, api)?;
+            app.manage(accessibility);
+            Ok(())
+        })
+        .build()
 }
