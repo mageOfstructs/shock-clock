@@ -266,7 +266,7 @@ pub fn Watcher() -> impl IntoView {
             {move || {
                 let heading = format!("Block {} {}", if add_modal_block_type() == BlockAdd::App {"an"} else {"a"}, add_modal_block_type());
                 view! {
-                    <h2>{heading}</h2>
+                    <h2 class="text-secondary text-2xl">{heading}</h2>
                     <form on:submit={move |ev| {
                         ev.prevent_default();
                         set_add_modal_is_open(false);
@@ -275,14 +275,14 @@ pub fn Watcher() -> impl IntoView {
                         {
                             if add_modal_block_type() != BlockAdd::Keyword {
                                 view! {
-                                    <input class="my-4" type="text" placeholder="Name" node_ref={name_input_ref} required/>
+                                    <input class="input input-bordered w-full max-w-xs mt-4" type="text" placeholder="Name" node_ref={name_input_ref} required/>
                                 }.into_view()
                             } else {
                                 view!{}.into_view()
                             }
                         }
-                        <input class="my-4" type="text" placeholder="Identifier" node_ref={input_ref} required/>
-                        <input class="btn block" type="submit" value="Create"/>
+                        <input class="input input-bordered w-full max-w-xs mt-2" type="text" placeholder="Identifier" node_ref={input_ref} required/>
+                        <input class="btn btn-primary mt-3" type="submit" value="Create"/>
                     </form>
                 }
             }}
@@ -376,7 +376,7 @@ fn BlockElement(i: usize, block: Block) -> impl IntoView {
                     BlockType::Keyword => mview!{ Icon width="3em" height="3em" icon={i::BsCardText}() }
                 }}
                 div {
-                    span class="text-white text-2xl"({block.name})
+                    span class="text-primary text-2xl"({block.name})
                     p class="text-sm text-gray-400"({move || match &block.block_type {
                         BlockType::App(ref app_data) => app_data.package_name.clone(),
                         BlockType::Website(ref website_data) => website_data.url.clone(),

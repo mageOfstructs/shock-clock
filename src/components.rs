@@ -164,25 +164,73 @@ pub mod watcher;
 use wasm_bindgen_futures::spawn_local;
 pub use watcher::Watcher;
 
+// #[component]
+// pub fn Themes() -> impl IntoView {
+//     mview! {
+//         h1 class="my-4" { "Credits" }
+//         p { "made with blood, sweat, tears and move closures by"}
+//         ul {
+//             li {
+//                 a href="https://github.com/mageofstructs" {"@mageOfStructs (Jason)"}
+//             }
+//             li {
+//                 a href="https://github.com/thronkatze0" {"@thronkatze0 (Vincent)"}
+//             }
+//         }
+//         h3 { "Special Thanks" }
+//         ul {
+//             li {"Linus Torvalds - Creator of Linux"}
+//             li {"Ken Thompson - Co-Creator of UNIX"}
+//             li {"Dennis Richie - Creator of C/Co-Creator of UNIX"}
+//             li {"Bjarne Stroustrup - Creator of C++"}
+//         }
+//     }
+// }
+
 #[component]
-pub fn Games() -> impl IntoView {
+pub fn Theme(set_theme: WriteSignal<String>) -> impl IntoView {
+    let themes = [
+        "light",
+        "dark",
+        "cupcake",
+        "bumblebee",
+        "emerald",
+        "corporate",
+        "synthwave",
+        "retro",
+        "cyberpunk",
+        "valentine",
+        "halloween",
+        "garden",
+        "forest",
+        "aqua",
+        "lofi",
+        "pastel",
+        "fantasy",
+        "wireframe",
+        "black",
+        "luxury",
+        "dracula",
+        "cmyk",
+        "autumn",
+        "business",
+        "acid",
+        "lemonade",
+        "night",
+        "coffee",
+        "winter",
+        "dim",
+        "nord",
+        "sunset",
+    ];
+
     mview! {
-        h1 class="my-4" { "Credits" }
-        p { "made with blood, sweat, tears and move closures by"}
-        ul {
-            li {
-                a href="https://github.com/mageofstructs" {"@mageOfStructs (Jason)"}
-            }
-            li {
-                a href="https://github.com/thronkatze0" {"@thronkatze0 (Vincent)"}
-            }
-        }
-        h3 { "Special Thanks" }
-        ul {
-            li {"Linus Torvalds - Creator of Linux"}
-            li {"Ken Thompson - Co-Creator of UNIX"}
-            li {"Dennis Richie - Creator of C/Co-Creator of UNIX"}
-            li {"Bjarne Stroustrup - Creator of C++"}
+        div class="grid grid-cols-3 gap-4 p-4" {
+            {themes.into_iter()
+            .map(|theme| mview! {
+                button class="btn btn-secondary btn-outline" on:click={move |_| set_theme(theme.to_string())} ({theme.to_string()})
+            })
+            .collect::<Vec<_>>()}
         }
     }
 }

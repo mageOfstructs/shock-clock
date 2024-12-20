@@ -19,8 +19,7 @@ pub fn init_accessibility(
             println!("init accessibility service");
 
             loop {
-                let app_clone = app.clone();
-                let event = app_clone.accessibility().get_event(EventPayload).unwrap();
+                let event = app.accessibility().get_event(EventPayload).unwrap();
                 if event.text != "" {
                     check_for_block(&app, event, &state.lock().await).await;
                 }
