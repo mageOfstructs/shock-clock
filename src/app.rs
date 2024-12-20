@@ -11,7 +11,7 @@ use icondata_core::IconData;
 use leptos::*;
 use leptos_icons::*;
 use leptos_mview::mview;
-use shock_clock_ui::components::{Games, Home, Watcher};
+use shock_clock_ui::components::{Home, Theme, Watcher};
 
 use shock_clock_ui::invoke_without_args;
 
@@ -19,7 +19,7 @@ use shock_clock_ui::invoke_without_args;
 enum SelectedRoute {
     Watcher,
     Home,
-    Games, // maybe change to settings later
+    Themes, // maybe change to settings later
 }
 
 impl Display for SelectedRoute {
@@ -30,7 +30,7 @@ impl Display for SelectedRoute {
             match self {
                 Self::Watcher => "Watcher",
                 Self::Home => "Home",
-                Self::Games => "Games",
+                Self::Themes => "Themes",
             }
         )
     }
@@ -46,19 +46,22 @@ pub fn App() -> impl IntoView {
         invoke_without_args("init_scanloop").await;
     })());
 
-    let selected_route = RwSignal::new(SelectedRoute::Watcher);
+    let selected_route = RwSignal::new(SelectedRoute::Home);
     provide_context(Route(selected_route));
 
+    let (selected_theme, set_selected_theme) = create_signal("night".to_string());
+
     mview! {
+        input type="checkbox" value={move || selected_theme()} checked class="checkbox theme-controller hidden"()
         {move || match selected_route() {
             SelectedRoute::Home => mview! {Home()},
             SelectedRoute::Watcher => mview! {Watcher()},
-            SelectedRoute::Games => mview! {Games()}
+            SelectedRoute::Themes => mview! {Theme set_theme={set_selected_theme}()}
         }}
         div class="btm-nav btm-nav-sm h-[10%]" {
             BtmNavItem route={SelectedRoute::Watcher} icon={i::AiMonitorOutlined}()
             BtmNavItem route={SelectedRoute::Home} icon={i::AiHomeOutlined}()
-            BtmNavItem route={SelectedRoute::Games} icon={i::CgGames}()
+            BtmNavItem route={SelectedRoute::Themes} icon={i::CgColorBucket}()
         }
     }
 }

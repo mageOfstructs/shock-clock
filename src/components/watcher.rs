@@ -377,7 +377,7 @@ fn BlockElement(i: usize, block: Block) -> impl IntoView {
                     BlockType::Keyword => mview!{ Icon width="3em" height="3em" icon={i::BsCardText}() }
                 }}
                 div {
-                    span class="text-white text-2xl"({block.name})
+                    span class="text-primary text-2xl"({block.name})
                     p class="text-sm text-gray-400"({move || match &block.block_type {
                         BlockType::App(ref app_data) => app_data.package_name.clone(),
                         BlockType::Website(ref website_data) => website_data.url.clone(),
