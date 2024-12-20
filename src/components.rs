@@ -1,9 +1,13 @@
 use leptos::ev::MouseEvent;
 use leptos::logging;
+use leptos::use_context;
 use leptos::view;
 use leptos::Await;
+use leptos::SignalGet;
+use leptos::SignalUpdate;
 use leptos::WriteSignal;
 use shock_clock_utils::ble::IsConnected;
+use shock_clock_utils::Block;
 
 use icondata as i;
 use leptos::component;
@@ -16,6 +20,8 @@ use serde::{Deserialize, Serialize};
 use serde_wasm_bindgen::{from_value, to_value};
 
 use tauri_sys::event;
+
+use crate::BlocksWS;
 
 pub use super::{invoke, invoke_without_args};
 
@@ -54,6 +60,13 @@ pub async fn wait_for_addr(set_clock_connected: WriteSignal<bool>) -> bool {
     }
 }
 
+#[derive(Clone)]
+struct ToggleStates {
+    social_media: bool,
+    gambling: bool,
+    adult_content: bool,
+}
+
 #[component]
 pub fn Home() -> impl IntoView {
     let shock_test = move |_| {
@@ -70,6 +83,12 @@ pub fn Home() -> impl IntoView {
 
     let (clock_connected, set_clock_connected) = create_signal(false);
     let (clock_stat, set_clock_stat) = create_signal(false);
+    let set_blocks = use_context::<BlocksWS>().unwrap().0;
+    let (ts, set_ts) = create_signal(ToggleStates {
+        social_media: false,
+        gambling: false,
+        adult_content: false,
+    });
     let get_icon = move || {
         if clock_stat() {
             i::AiThunderboltFilled
@@ -110,8 +129,17 @@ pub fn Home() -> impl IntoView {
                     button on:click={shock_test} class="btn center text-6xl rounded-full flex-auto h-4/6 w-1/12 border-yellow-500 border-4 hover:border-white clicked:border-yellow-500" {"⚡"}
                     div class="flex-1";
                 }
-                div class="flex-1 form-control" {
-                    Toggle label="Block Social Media" callback={move |_| {}};
+                div class="flex-1 form-control" style="visibility: hidden" {
+                    Toggle label="Block Social Media" callback={move |_| {
+                    // set_blocks.update(|block| {
+                    //     if ts().social_media {
+                    //         block.push(Block::new("TikTok", ));
+                    //         block.push(Block::new("YouTube", ));
+                    //         block.push(Block::new("Instagram", ));
+                    //         block.push(Block::new("Facebook", ));
+                    //     }
+                    // });
+                }};
                     Toggle label="Block Gambling" callback={move |_| {}};
                     Toggle label="Block Adult Content" callback={move |_| {}};
                 }

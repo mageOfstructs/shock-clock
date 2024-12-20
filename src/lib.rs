@@ -1,4 +1,6 @@
 #![feature(async_closure)]
+use leptos::{ReadSignal, WriteSignal};
+use shock_clock_utils::Block;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsValue;
 
@@ -14,5 +16,11 @@ extern "C" {
 
     // They need to have different names!
 }
+
+#[derive(Clone)]
+pub struct BlocksWS(pub WriteSignal<Vec<Block>>);
+
+#[derive(Clone)]
+pub struct BlocksRS(pub ReadSignal<Vec<Block>>);
 
 pub mod components;

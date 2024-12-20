@@ -35,6 +35,8 @@ use shock_clock_utils::Block;
 
 use serde_wasm_bindgen::to_value;
 
+use crate::{BlocksRS, BlocksWS};
+
 use super::invoke;
 
 #[derive(Deserialize, Serialize)]
@@ -112,9 +114,6 @@ fn compBTs(btr: BlockTypeRoute, bt: &BlockType) -> bool {
 }
 
 #[derive(Clone)]
-struct BlocksWS(WriteSignal<Vec<Block>>);
-
-#[derive(Clone)]
 struct SSCSignal(ReadSignal<Option<usize>>, WriteSignal<Option<usize>>);
 
 #[component]
@@ -122,8 +121,8 @@ pub fn Watcher() -> impl IntoView {
     let (route, set_route) = create_signal(WatcherRoute::Blacklist);
     let (block_type, set_block_type) = create_signal(BlockTypeRoute::All);
 
-    let (blocks, set_blocks) = create_signal(Vec::new());
-    provide_context(BlocksWS(set_blocks));
+    let blocks = use_context::<BlocksRS>().unwrap().0;
+    let set_blocks = use_context::<BlocksWS>().unwrap().0;
 
     let filtered_blocks = move || {
         let res: Vec<(usize, Block)> = if let BlockTypeRoute::All = block_type() {
@@ -276,14 +275,14 @@ pub fn Watcher() -> impl IntoView {
                         {
                             if add_modal_block_type() != BlockAdd::Keyword {
                                 view! {
-                                    <input type="text" placeholder="Name" node_ref={name_input_ref} required/>
+                                    <input class="my-4" type="text" placeholder="Name" node_ref={name_input_ref} required/>
                                 }.into_view()
                             } else {
                                 view!{}.into_view()
                             }
                         }
-                        <input type="text" placeholder="Identifier" node_ref={input_ref} required/>
-                        <input type="submit" value="Create"/>
+                        <input class="my-4" type="text" placeholder="Identifier" node_ref={input_ref} required/>
+                        <input class="btn block" type="submit" value="Create"/>
                     </form>
                 }
             }}

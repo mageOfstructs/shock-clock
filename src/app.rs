@@ -3,6 +3,7 @@
 //use shock_clock_ui::components::Home;
 use serde::{Deserialize, Serialize};
 use serde_wasm_bindgen::{from_value, to_value};
+use shock_clock_utils::Block;
 use std::fmt::Display;
 use wasm_bindgen::prelude::*;
 
@@ -12,6 +13,7 @@ use leptos::*;
 use leptos_icons::*;
 use leptos_mview::mview;
 use shock_clock_ui::components::{Games, Home, Watcher};
+use shock_clock_ui::{BlocksRS, BlocksWS};
 
 use shock_clock_ui::invoke_without_args;
 
@@ -48,6 +50,10 @@ pub fn App() -> impl IntoView {
 
     let selected_route = RwSignal::new(SelectedRoute::Watcher);
     provide_context(Route(selected_route));
+
+    let (blocks, set_blocks) = create_signal(Vec::new());
+    provide_context(BlocksRS(blocks));
+    provide_context(BlocksWS(set_blocks));
 
     mview! {
         {move || match selected_route() {
