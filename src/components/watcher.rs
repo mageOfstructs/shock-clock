@@ -154,28 +154,28 @@ pub fn Watcher() -> impl IntoView {
         ret
     };
 
-    add_block(Block {
-        uuid: uuid::Uuid::new_v4(),
-        name: "Tiktok".to_string(),
-        shock_strength: ShockStrength::Normal,
-        block_type: BlockType::App(AppBlockData {
-            package_name: "com.android.chrome".to_string(),
-        }),
-    });
-    add_block(Block {
-        uuid: uuid::Uuid::new_v4(),
-        name: "Google".to_string(),
-        shock_strength: ShockStrength::Normal,
-        block_type: BlockType::Website(WebsiteBlockData {
-            url: "www.google.com".to_string(),
-        }),
-    });
-    add_block(Block {
-        uuid: uuid::Uuid::new_v4(),
-        name: "Videos".to_string(),
-        shock_strength: ShockStrength::Normal,
-        block_type: BlockType::Keyword,
-    });
+    // add_block(Block {
+    //     uuid: uuid::Uuid::new_v4(),
+    //     name: "Tiktok".to_string(),
+    //     shock_strength: ShockStrength::Normal,
+    //     block_type: BlockType::App(AppBlockData {
+    //         package_name: "com.android.chrome".to_string(),
+    //     }),
+    // });
+    // add_block(Block {
+    //     uuid: uuid::Uuid::new_v4(),
+    //     name: "Google".to_string(),
+    //     shock_strength: ShockStrength::Normal,
+    //     block_type: BlockType::Website(WebsiteBlockData {
+    //         url: "www.google.com".to_string(),
+    //     }),
+    // });
+    // add_block(Block {
+    //     uuid: uuid::Uuid::new_v4(),
+    //     name: "Videos".to_string(),
+    //     shock_strength: ShockStrength::Normal,
+    //     block_type: BlockType::Keyword,
+    // });
 
     Effect::new(move |_| {
         logging::log!("yeah async");
