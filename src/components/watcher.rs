@@ -267,7 +267,7 @@ pub fn Watcher() -> impl IntoView {
             {move || {
                 let heading = format!("Block {} {}", if add_modal_block_type() == BlockAdd::App {"an"} else {"a"}, add_modal_block_type());
                 view! {
-                    <h2>{heading}</h2>
+                    <h2 class="text-secondary text-2xl">{heading}</h2>
                     <form on:submit={move |ev| {
                         ev.prevent_default();
                         set_add_modal_is_open(false);
@@ -276,14 +276,14 @@ pub fn Watcher() -> impl IntoView {
                         {
                             if add_modal_block_type() != BlockAdd::Keyword {
                                 view! {
-                                    <input type="text" placeholder="Name" node_ref={name_input_ref} required/>
+                                    <input class="input input-bordered w-full max-w-xs mt-4" type="text" placeholder="Name" node_ref={name_input_ref} required/>
                                 }.into_view()
                             } else {
                                 view!{}.into_view()
                             }
                         }
-                        <input type="text" placeholder="Identifier" node_ref={input_ref} required/>
-                        <input type="submit" value="Create"/>
+                        <input class="input input-bordered w-full max-w-xs mt-2" type="text" placeholder="Identifier" node_ref={input_ref} required/>
+                        <input class="btn btn-primary mt-3" type="submit" value="Create"/>
                     </form>
                 }
             }}
