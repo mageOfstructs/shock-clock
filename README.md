@@ -8,3 +8,4 @@ The app is able to trigger a shock through a variety of triggers:
     4. Website (if the user tries to access a blacklisted website)
 
 - This project was made for the 2024 HTL Villach Projectdays and achieved first place amongst third grade and third place overall
+- Project authors: @mageOfStructs, @thronecat0
